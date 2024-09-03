@@ -5,11 +5,12 @@ Progetto Web che offre la possibilità di pubblicare, cercare e prenotare eventi
 ## Struttura del Progetto
 
 /Modena_Eventi/
-├── /core
-├── /modena_eventi
-├── /static
-├── /templates
-└── /utenti
+    ├── /core
+    ├── /modena_eventi
+    ├── /static
+    ├── /templates
+    └── /utenti
+
 
 
 ---
