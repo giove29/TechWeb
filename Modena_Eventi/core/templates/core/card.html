@@ -1,0 +1,44 @@
+{% load static %}
+
+<div class="col">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <!-- Intestazione con nome del pubblicatore-->
+            <div class="row mb-3">
+                <div class="col-md-9">
+                    <h5 class="card-title font-weight-bold">
+                        {{ pubblicatore_nome }}
+                    </h5>
+                </div>
+                <div class="col-md-3 text-right">
+                    <div class="ratings">
+                        <b class="font-rating">{{ voto }}</b> <i class="fa fa-star rating-color"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Descrizione dell'evento -->
+            <h4 class="card-title font-weight-bold mb-3">{{ descrizione }}</h4>
+
+            <!-- Tags dell'evento -->
+            <div class="mb-3">
+                <h6 class="font-weight-bold">Tags:</h6>
+                {% if tags %}
+                <div class="d-flex flex-wrap">
+                    {% for tag in tags %}
+                    <span class="badge badge-primary mr-2 mb-2">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p>Nessun tag disponibile.</p>
+                {% endif %}
+            </div>
+
+            <!-- Prezzo e pulsante di prenotazione -->
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="text-primary font-weight-bold">{{ costo }}€</h3>
+                <a href="{% url 'core:visualizza_evento' id_evento %}" class="btn btn-primary">PRENOTA</a>
+            </div>
+        </div>
+    </div>
+</div>

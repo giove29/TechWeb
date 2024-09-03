@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Modifica dati profilo{% endblock title %}
+{% load static %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow-sm border-0">
+          <div class="card-header text-center bg-light border-bottom">
+            <h2 class="mb-0">Modifica Profilo</h2>
+          </div>
+          <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="id_first_name" class="form-label"><strong>Nome</strong></label>
+                <input type="text" id="id_first_name" name="first_name" value="{{ user.first_name }}" class="form-control">
+              </div>
+              <div class="form-group mt-3">
+                <label for="id_last_name" class="form-label"><strong>Cognome</strong></label>
+                <input type="text" id="id_last_name" name="last_name" value="{{ user.last_name }}" class="form-control">
+              </div>
+              <div class="text-center mt-4">
+                <a href="{% url 'utenti:view_profile' %}" class="btn btn-outline-secondary mr-2" style="border-radius: 25px;">Annulla</a>
+                <button type="submit" class="btn btn-primary" style="border-radius: 25px;">Salva</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

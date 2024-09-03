@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Prenotazione Confermata{% endblock %}
+{% block content %}
+<style>
+    .card-footer a {
+        color: blue;
+        text-decoration: underline;
+        font-weight: bold;
+    }
+    
+    .card-footer a:hover {
+        color: darkblue;
+    }
+</style>
+<center>
+    <div class="container">
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <section>
+                        <div class="container">
+                            <div class="row">
+                                <div class="mx-auto">
+                                    <div class="card">
+                                        <div class="card-header text-black text-center">
+                                            <h3 style="color:black">Prenotazione confermata presso il pubblicatore</h3>
+                                            {% if evento.pubblicatore_id %}
+                                                <a href="{% url 'core:visualizza_pubblicatore' evento.pubblicatore_id %}" class="btn btn-primary btn-lg">
+                                                    {{ evento.pubblicatore.user.username }}
+                                                </a>
+                                            {% else %}
+                                                <span class="btn btn-secondary btn-lg">Nessun Pubblicatore Disponibile</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="pb-3" style="color:black">Dettagli prenotazione</h5>
+                                            <p>Tags: <b>{{ evento.tags.all|join:", " }}</b></p>
+                                            <p>
+                                                <b>
+                                                    {% if evento.gratis %} 
+                                                        Gratuito 
+                                                    {% else %} 
+                                                        A pagamento 
+                                                    {% endif %}
+                                                </b>
+                                            </p>
+                                            <p>Costo: <b>{{ evento.costo }} €</b></p>
+                                            <p>Data: <b>{{ evento.data }}</b></p>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <a href="{% url 'core:prenotazioni_utente' %}" style="color: blue; text-decoration: underline; font-weight: bold;">
+                                                Le mie prenotazioni
+                                            </a>
+                                            <a href="{% url 'core:homepage' %}" style="color: blue; text-decoration: underline; font-weight: bold; margin-left: 20px;">
+                                                Home
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</center>
+{% endblock %}

@@ -1,0 +1,8 @@
+Modena_Eventi/Pipfile
+Modena_Eventi/Pipfile.lock
+Modena_Eventi/utenti/migrations/*
+!Modena_Eventi/utenti/migrations/__init__.py
+Modena_Eventi/core/migrations/
+!Modena_Eventi/core/migrations/__init__.py
+Modena_Eventi/db.sqlite3
+.DS_Store

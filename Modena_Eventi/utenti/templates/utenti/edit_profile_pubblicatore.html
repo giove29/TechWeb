@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Modifica dati profilo{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <section>
+                <div class="card border-0">
+                    <div class="card-header text-center bg-transparent">
+                        <h2 class="h4 mb-0 text-dark">Profilo di {{ request.user.username }}</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <!-- Nome Pubblicatore -->
+                            <div class="mb-3">
+                                <label for="id_nome" class="form-label"><strong>Nome Pubblicatore</strong></label>
+                                <input type="text" id="id_nome" name="nome" value="{{ initial_data.init_nome }}" class="form-control" required>
+                            </div>
+
+                            <!-- Latitudine -->
+                            <div class="mb-3">
+                                <label for="id_latitudine" class="form-label"><strong>Latitudine</strong></label>
+                                <textarea id="id_latitudine" name="latitudine" class="form-control" rows="2" required>{{ initial_data.init_latitudine }}</textarea>
+                            </div>
+
+                            <!-- Longitudine -->
+                            <div class="mb-3">
+                                <label for="id_longitudine" class="form-label"><strong>Longitudine</strong></label>
+                                <textarea id="id_longitudine" name="longitudine" class="form-control" rows="2" required>{{ initial_data.init_longitudine }}</textarea>
+                            </div>
+
+                            <!-- Descrizione -->
+                            <div class="mb-3">
+                                <label for="id_descrizione" class="form-label"><strong>Descrizione</strong></label>
+                                <textarea id="id_descrizione" name="descrizione" class="form-control" rows="3" required>{{ initial_data.init_descrizione }}</textarea>
+                            </div>
+
+                            <!-- Bottoni -->
+                            <div class="d-flex justify-content-between pt-3">
+                                <a href="{% url 'utenti:view_profile' %}" class="btn btn-outline-secondary" style="border-radius: 20px;">Annulla</a>
+                                <button type="submit" class="btn btn-primary btn-rounded" style="border-radius: 20px;">Salva</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock content %}

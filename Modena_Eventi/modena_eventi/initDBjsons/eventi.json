@@ -1,0 +1,218 @@
+[
+    {
+        "nome": "Maratona di Primavera",
+        "descrizione": "Una maratona annuale che attraversa i parchi cittadini, con eventi per tutti i livelli.",
+        "gratis": false,
+        "costo": 35.00,
+        "tags": "Sport",
+        "data": "2024-05-15",
+        "max": 200
+    },
+    {
+        "nome": "Concerto di Primavera",
+        "descrizione": "Un concerto con artisti locali e internazionali per celebrare la stagione primaverile.",
+        "gratis": false,
+        "costo": 50.00,
+        "tags": "Musica dal Vivo, Cultura",
+        "data": "2024-04-10",
+        "max": 200
+    },
+    {
+        "nome": "Mostra di Arte Contemporanea",
+        "descrizione": "Esposizione di opere di artisti contemporanei emergenti e affermati.",
+        "gratis": true,
+        "costo": 0.00,
+        "tags": "Arte e Mostre",
+        "data": "2024-03-20",
+        "max": 150
+    },
+    {
+        "nome": "Festival del Cibo Street",
+        "descrizione": "Un festival gastronomico che offre cibo da tutto il mondo in un ambiente all'aperto.",
+        "gratis": false,
+        "costo": 20.00,
+        "tags": "Cibo e Bevande",
+        "data": "2024-06-05",
+        "max": 200
+    },
+    {
+        "nome": "Festa della Cultura Locale",
+        "descrizione": "Celebrazione delle tradizioni locali con musica, danze e cibo tipico.",
+        "gratis": true,
+        "costo": 0.00,
+        "tags": "Cultura, Cibo e Bevande",
+        "data": "2024-07-12",
+        "max": 200
+    },
+    {
+        "nome": "Fiere della Tecnologia",
+        "descrizione": "Una fiera dedicata alle ultime novità tecnologiche e ai gadget innovativi.",
+        "gratis": false,
+        "costo": 40.00,
+        "tags": "Tecnologia, Cultura",
+        "data": "2024-08-23",
+        "max": 200
+    },
+    {
+        "nome": "Serata al Pub",
+        "descrizione": "Una serata di socializzazione con musica dal vivo e drink speciali.",
+        "gratis": false,
+        "costo": 15.00,
+        "tags": "Pub, Musica dal Vivo",
+        "data": "2024-05-25",
+        "max": 150
+    },
+    {
+        "nome": "Festival di Moda Estiva",
+        "descrizione": "Un evento di moda che presenta le ultime tendenze per la stagione estiva.",
+        "gratis": false,
+        "costo": 30.00,
+        "tags": "Moda, Arte e Mostre",
+        "data": "2024-07-30",
+        "max": 150
+    },
+    {
+        "nome": "Giornata di Pulizia Ambientale",
+        "descrizione": "Un evento di volontariato per la pulizia dei parchi e delle spiagge locali.",
+        "gratis": true,
+        "costo": 0.00,
+        "tags": "Naturale, Beneficenza",
+        "data": "2024-04-22",
+        "max": 100
+    },
+    {
+        "nome": "Notte della Cultura",
+        "descrizione": "Eventi culturali e artistici in vari luoghi della città per una notte di esplorazione.",
+        "gratis": true,
+        "costo": 0.00,
+        "tags": "Cultura, Arte e Mostre",
+        "data": "2024-09-14",
+        "max": 200
+    },
+    {
+        "nome": "Workshop di Tecnologia",
+        "descrizione": "Un workshop interattivo sulle ultime tecnologie e innovazioni.",
+        "gratis": false,
+        "costo": 25.00,
+        "tags": "Tecnologia",
+        "data": "2024-06-10",
+        "max": 100
+    },
+    {
+        "nome": "Festival del Vino e della Birra",
+        "descrizione": "Un festival con degustazioni di vini e birre locali e internazionali.",
+        "gratis": false,
+        "costo": 40.00,
+        "tags": "Cibo e Bevande",
+        "data": "2024-08-15",
+        "max": 200
+    },
+    {
+        "nome": "Serata di Beneficenza",
+        "descrizione": "Una serata per raccogliere fondi per una causa benefica con cibo e musica.",
+        "gratis": false,
+        "costo": 50.00,
+        "tags": "Beneficenza, Cibo e Bevande",
+        "data": "2024-05-20",
+        "max": 150
+    },
+    {
+        "nome": "Esposizione di Animali Domestici",
+        "descrizione": "Un evento per gli amanti degli animali con esposizioni e attività pet friendly.",
+        "gratis": true,
+        "costo": 0.00,
+        "tags": "Pet Friendly, Naturale",
+        "data": "2024-09-01",
+        "max": 200
+    },
+    {
+        "nome": "Festival della Musica Jazz",
+        "descrizione": "Un festival che celebra la musica jazz con artisti locali e internazionali.",
+        "gratis": false,
+        "costo": 30.00,
+        "tags": "Musica dal Vivo",
+        "data": "2024-06-18",
+        "max": 200
+    },
+    {
+        "nome": "Giornata di Moda e Shopping",
+        "descrizione": "Un evento di moda con sfilate e opportunità di shopping esclusivo.",
+        "gratis": false,
+        "costo": 20.00,
+        "tags": "Moda, Cibo e Bevande",
+        "data": "2024-07-25",
+        "max": 150
+    },
+    {
+        "nome": "Esibizione di Danza Contemporanea",
+        "descrizione": "Una performance di danza contemporanea con artisti di fama internazionale.",
+        "gratis": false,
+        "costo": 25.00,
+        "tags": "Arte e Mostre, Musica dal Vivo",
+        "data": "2024-08-30",
+        "max": 100
+    },
+    {
+        "nome": "Festa del Raccolto",
+        "descrizione": "Celebrazione del raccolto con cibo, musica e giochi all'aperto.",
+        "gratis": true,
+        "costo": 0.00,
+        "tags": "Cibo e Bevande, Naturale",
+        "data": "2024-10-10",
+        "max": 200
+    },
+    {
+        "nome": "Festival della Scienza",
+        "descrizione": "Un evento che esplora le ultime scoperte scientifiche con conferenze e dimostrazioni.",
+        "gratis": false,
+        "costo": 30.00,
+        "tags": "Tecnologia, Cultura",
+        "data": "2024-11-02",
+        "max": 150
+    },
+    {
+        "nome": "Serata Karaoke al Pub",
+        "descrizione": "Una serata di karaoke per divertirsi e cantare le proprie canzoni preferite.",
+        "gratis": false,
+        "costo": 10.00,
+        "tags": "Pub, Musica dal Vivo",
+        "data": "2024-12-01",
+        "max": 100
+    },
+    {
+        "nome": "Conferenza sulla Sostenibilità",
+        "descrizione": "Una conferenza sui temi della sostenibilità ambientale e dell'energia rinnovabile.",
+        "gratis": false,
+        "costo": 20.00,
+        "tags": "Naturale, Tecnologia",
+        "data": "2024-09-25",
+        "max": 100
+    },
+    {
+        "nome": "Festival di Cucina Internazionale",
+        "descrizione": "Un festival che presenta piatti tipici e cucine di tutto il mondo.",
+        "gratis": false,
+        "costo": 35.00,
+        "tags": "Cibo e Bevande",
+        "data": "2024-10-20",
+        "max": 200
+    },
+    {
+        "nome": "Esposizione di Tecnologia Innovativa",
+        "descrizione": "Una mostra dedicata alle ultime innovazioni tecnologiche e gadget futuristici.",
+        "gratis": false,
+        "costo": 25.00,
+        "tags": "Tecnologia, Cultura",
+        "data": "2024-11-15",
+        "max": 150
+    },
+    {
+        "nome": "Festa della Primavera",
+        "descrizione": "Un evento che celebra l'arrivo della primavera con musica, cibo e attività all'aperto.",
+        "gratis": true,
+        "costo": 0.00,
+        "tags": "Cibo e Bevande, Musica dal Vivo",
+        "data": "2024-03-21",
+        "max": 200
+    }
+]

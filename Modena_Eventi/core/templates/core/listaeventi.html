@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block head %} {% endblock %}
+
+{% block title %} Modena Eventi {% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<style>
+    /* Header */
+
+    /* Card styles */
+    .card {
+        border: none;
+        border-radius: 1rem; /* Smussamento degli angoli */
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .card-body {
+        padding: 1.5rem;
+    }
+    .card-title {
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+    .description {
+        color: #666;
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
+    }
+    /* Rating */
+    .rating-color {
+        color: #f5d105;
+    }
+    .ratings i {
+        font-size: 1.5rem;
+    }
+    .font-rating {
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+    }
+    .font-rating i {
+        margin-left: 0.5rem;
+        color: #f5d105;
+    }
+    
+    /* Tags */
+    .custom-badge {
+        background-color: #6c757d; /* Colore grigio */
+        color: #fff;
+        border: 1px solid #6c757d;
+        padding: 0.25em 0.5em;
+        border-radius: 1em;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        font-size: 0.875rem;
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+    
+    /* Alerts */
+    .text-danger {
+        color: #dc3545 !important;
+    }
+
+    /* Pagination */
+    .pagination-sm .page-link {
+        padding: 0.25rem 0.5rem;
+    }
+    .pagination .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    /* Container styles */
+    .custom-container-paginator {
+        margin-top: 2rem;
+    }
+    
+    /* Specific block styling */
+    .event-block, .publisher-block {
+        border-radius: 1rem; /* Smussamento degli angoli per i blocchi */
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
+    .event-block .card-body, .publisher-block .card-body {
+        padding: 1.5rem;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row mb-4">
+        <!-- Modulo di Ricerca -->
+        <div class="col-md-12">
+            <h2 class="text-center mb-4">Cerca Eventi</h2>
+            <form method="get" action="{% url 'core:listaeventi' %}">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Scegli i tags</label>
+                            <div class="d-flex flex-wrap">
+                                {% for tag, tag_display in tipi_tags %}
+                                <div class="form-check me-3 mb-2">
+                                    <input type="checkbox" id="tag_{{ tag }}" name="tags" value="{{ tag }}" class="form-check-input" {% if tag in tags_query %}checked{% endif %}>
+                                    <label class="form-check-label" for="tag_{{ tag }}">{{ tag_display }}</label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="gratuito" class="form-label fw-bold">Tipo di evento</label>
+                            <select id="gratuito" name="gratuito" class="form-select">
+                                <option value="">Non specificato</option>
+                                <option value="True" {% if gratuito == 'True' %}selected{% endif %}>Gratuito</option>
+                                <option value="False" {% if gratuito == 'False' %}selected{% endif %}>A pagamento</option>
+                            </select>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label for="ordinamento" class="form-label fw-bold">Ordina per</label>
+                                <select id="ordinamento" name="ordinamento" class="form-select">
+                                    <option value="voto_medio" {% if ordinamento == 'voto_medio' %}selected{% endif %}>Recensioni</option>
+                                    <option value="costo" {% if ordinamento == 'costo' %}selected{% endif %}>Costo</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="ordine" class="form-label fw-bold">Ordine</label>
+                                <select id="ordine" name="ordine" class="form-select">
+                                    <option value="desc" {% if ordine == 'desc' %}selected{% endif %}>Decrescente</option>
+                                    <option value="asc" {% if ordine == 'asc' %}selected{% endif %}>Crescente</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary">Cerca</button>
+                        </div>
+                    </div> <!-- Fine card-body -->
+                </div> <!-- Fine card -->
+            </form>
+        </div> <!-- Fine col-md-12 -->
+    </div> <!-- Fine row -->
+    {% if object_list %}
+        <h1 class="text-center mb-4">{{ page_obj.paginator.count }} {{ view.get_model_name }} trovati</h1>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for evento, voto, today_date in object_list %}
+                <div class="col">
+                    <div class="card event-block shadow-sm">
+                        <div class="card-body">
+                            <!-- Intestazione con nome del pubblicatore e nome dell'evento -->
+                            <div class="row mb-3">
+                                <div class="col-md-9">
+                                    <a href="{% url 'core:visualizza_pubblicatore' evento.pubblicatore_id %}" class="card-title">{{ evento.pubblicatore.user.username }}</a>
+                                    <h5 class="card-title">{{ evento.nome }}</h5>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <div class="ratings">
+                                        <b class="font-rating">{{ voto|floatformat:1 }} <i class="fa fa-star rating-color"></i></b>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Descrizione dell'evento -->
+                            <p class="description">{{ evento.descrizione }}</p>
+
+                            <!-- Tags dell'evento -->
+                            <div class="mb-3">
+                                <h6>Tags:</h6>
+                                {% if evento.tags.all %}
+                                    <div class="d-flex flex-wrap">
+                                        {% for tag in evento.tags.all %}
+                                            <span class="badge custom-badge">{{ tag.nome }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <p>Nessun tag disponibile.</p>
+                                {% endif %}
+                            </div>  
+
+                            <!-- Prezzo e pulsante di prenotazione -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3 class="text-primary">{{ evento.costo }}€</h3>
+                                {% if evento.data < today_date %}
+                                    <p class="text-danger">Evento passato</p>
+                                {% else %}
+                                    {% if evento.id in prenotati_ids %}
+                                        <p class="text-danger">Evento già prenotato</p>
+                                    {% else %}
+                                        <a href="{% url 'core:visualizza_evento' evento.id %}" class="btn btn-primary">PRENOTA</a>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Paginazione -->
+        <div class="custom-container-paginator text-center mt-4">
+            <nav aria-label="Paginazione Eventi">
+                <ul class="pagination pagination-sm justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if get_params %}&{{ get_params }}{% endif %}">Precedente</a>
+                        </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                            <a class="page-link" href="?page={{ num }}{% if get_params %}&{{ get_params }}{% endif %}">{{ num }}</a>
+                        </li>
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if get_params %}&{{ get_params }}{% endif %}">Successiva</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    {% else %}
+        <h1 id="font-eventi-trovati">Nessun evento trovato</h1>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+<script>
+    $(document).ready(function(){
+        $("#info").modal('show');
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inizializza Selectize
+        var select = $('#tags_scelti').selectize({
+            plugins: ['remove_button'],
+            delimiter: ',',
+            persist: false,
+            create: false,
+            maxItems: null,
+            valueField: 'value',
+            labelField: 'text',
+            searchField: 'text',
+            options: [
+                {% for tag, tag_display in tipi_tags %}
+                {value: "{{ tag }}", text: "{{ tag_display }}"},
+                {% endfor %}
+            ],
+            items: [
+                {% for tag in tags_query %}
+                "{{ tag }}",
+                {% endfor %}
+            ]
+        });
+    });
+</script>

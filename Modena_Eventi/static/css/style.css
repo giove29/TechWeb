@@ -1,0 +1,85 @@
+/* Reset CSS */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    background-color: #f8f9fa; /* Colore più neutro e morbido per un aspetto minimalista */
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+}
+
+/* Card Styling */
+.card {
+    border-radius: 15px; /* Ridotto il raggio per un aspetto più moderno e meno arrotondato */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombra leggera per una profondità sottile */
+    background-color: #ffffff; /* Sfondo bianco per contrasto */
+}
+
+.card-img-top {
+    border-radius: 15px; /* Ridotto il raggio dell'immagine per coerenza con la card */
+    padding: 15px; /* Ridotto il padding per un design più compatto */
+}
+
+.card-body {
+    padding: 20px; /* Uniformato il padding per coerenza */
+    margin-top: -10px; /* Ridotto il margine per un design più compatto */
+}
+
+/* Button Styling */
+.btn-primary {
+    border-radius: 25px; /* Mantenuto arrotondato ma meno estremo */
+    width: auto; /* Permette al pulsante di adattarsi al contenuto */
+    padding: 10px 20px; /* Aggiunto padding per un design più equilibrato */
+    background-color: #007bff; /* Colore blu più vibrante */
+    border: none;
+    transition: background-color 0.3s ease; /* Aggiunta transizione per effetto hover più fluido */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Colore hover leggermente più scuro per un feedback visivo */
+}
+
+/* Heading Styling */
+h3, h5 {
+    color: #333; /* Colore più scuro per migliorare la leggibilità */
+    font-weight: bold; /* Font-weight bold per enfasi senza essere troppo pesante */
+}
+
+/* Text Colors */
+.text-first-color {
+    color: #333; /* Colore standard per uniformità */
+}
+
+/* Background Colors */
+.first-color {
+    background-color: #f8f9fa; /* Colore di sfondo neutro */
+}
+
+.third-color {
+    background-color: #e9ecef; /* Colore di sfondo leggero e neutro */
+}
+
+.fourth-color {
+    background-color: #007bff; /* Blu per elementi interattivi */
+}
+
+/* Text Styling */
+.text-fourth-color {
+    color: #007bff; /* Blu per elementi di testo correlati */
+}
+
+/* Custom Font Styles */
+#font-prenota, #info {
+    font-family: 'Helvetica Neue', Arial, sans-serif; /* Font sans-serif per un look moderno e leggibile */
+    font-size: 16px; /* Dimensione del font uniforme per leggibilità */
+    letter-spacing: 0.5px; /* Leggero letter-spacing per un tocco raffinato */
+    word-spacing: 1px; /* Leggero word-spacing per leggibilità */
+    font-weight: 600; /* Font-weight semi-bold per enfasi senza essere troppo pesante */
+    text-decoration: none; /* Rimosso per pulizia */
+    font-style: normal; /* Normal per mantenere coerenza e minimalismo */
+    text-transform: none; /* Rimosso per coerenza */
+}

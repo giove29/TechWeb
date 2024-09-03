@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Profilo di {{ user.username }} {% endblock %}
+
+{% block content %}
+
+    <!-- Modali per messaggi di successo e errore -->
+    {% if "ok" in request.GET.modified %}
+    <div id="info" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalSuccessLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalSuccessLabel">Modifiche avvenute con successo!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Chiudi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $("#info").modal('show');
+        });
+    </script>
+    {% endif %}
+
+    {% if "no" in request.GET.modified %}
+    <div id="error-info" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalErrorLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErrorLabel">Errore durante l'operazione!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>I seguenti eventi non erano in un formato valido:</p>
+                    <ul>
+                        {% for key, value in request.GET.items %}
+                            {% if key != "modified" %}
+                                <li>{{ key }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $("#error-info").modal('show');
+        });
+    </script>
+    {% endif %}
+
+    {% if "ok" in request.GET.changed %}
+    <div id="password-change" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalPasswordChangeLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalPasswordChangeLabel">Password cambiata con successo!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Chiudi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $("#password-change").modal('show');
+        });
+    </script>
+    {% endif %}
+
+    <!-- Profilo Utente -->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>Profilo di {{ user.username }}</h2>
+                    </div>
+                    <div class="card-body">
+                        {% if user.is_utente %}
+                        <dl class="row">
+                            <dt class="col-sm-3">Nome:</dt>
+                            <dd class="col-sm-9">{{ user.first_name }}</dd>
+                            <dt class="col-sm-3">Cognome:</dt>
+                            <dd class="col-sm-9">{{ user.last_name }}</dd>
+                        </dl>
+                        {% elif user.is_pubblicatore %}
+                        <h4 class="text-center">Dati del Pubblicatore</h4>
+                        <dl class="row">
+                            <dt class="col-sm-3">Latitudine:</dt>
+                            <dd class="col-sm-9">{{ pubblicatore.latitudine }}</dd>
+                            <dt class="col-sm-3">Longitudine:</dt>
+                            <dd class="col-sm-9">{{ pubblicatore.longitudine }}</dd>
+                            <dt class="col-sm-3">Descrizione:</dt>
+                            <dd class="col-sm-9">{{ pubblicatore.descrizione }}</dd>
+                        </dl>
+                        {% endif %}
+                        <div class="text-center mt-4">
+                            <a href="{% url 'utenti:update_profile' %}" class="btn btn-secondary">Modifica Profilo</a>
+                            <a href="{% url 'utenti:cambia_password' %}" class="btn btn-secondary">Cambia Password</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<style>
+    .card-header {
+        background-color: #e0e0d1; /* Beige */
+        color: #333; /* Colore scuro per il testo */
+        font-weight: bold;
+    }
+    
+    .card {
+        border-radius: 12px; /* Arrotonda gli angoli della card */
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ object.pubblicatore.user.username }}{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.it.min.js"></script>
+
+<style>
+    body {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+    }
+    .container-review {
+        background-color: #ffffff;
+        color: #333;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+    .text-center p {
+        font-size: 16px;
+    }
+    .badge {
+        font-size: 14px;
+        padding: 0.5em 1em;
+        border-radius: 20px;
+        background-color: #007bff;
+        color: white;
+    }
+    .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .card-body {
+        padding: 2rem;
+    }
+    hr {
+        border-top: 1px solid #dee2e6;
+    }
+    h1, h2, h3, h5 {
+        font-weight: bold;
+    }
+    .rating-color {
+        color: #fbc634;
+    }
+    .custom-container-paginator {
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <hr>
+    <div class="row justify-content-center">
+        <!-- Colonna Info Evento -->
+        <div class="col-md-8">
+            <div class="container-review text-center">
+                <h1 class="display-4 mb-4">{{ object.nome }}</h1>
+                <hr>
+                <!-- Informazioni Evento -->
+                <p><b>Costo:</b> {{ object.costo }} €</p>
+                <p><b>Data:</b> {{ object.data }}</p>
+                <p><b>Evento:</b> {% if object.gratis %}Gratuito{% else %}A pagamento{% endif %}</p>
+
+                <!-- Tags -->
+                {% if object.tags.count == 0 %}
+                    <h5 class="text-muted">Non ci sono tags</h5>
+                {% else %}
+                    <div class="d-flex flex-wrap justify-content-center mb-3">
+                        {% for t in object.tags.all %}
+                            <span class="badge">{{ t.nome }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- Posti occupati e disponibili -->
+                <p><b>Posti occupati:</b> {{ posti_occupati }} / {{ max_posti }}</p>
+
+                <!-- Bottone Prenotazione o Messaggio Evento Prenotato -->
+                {% if posti_esauriti %}
+                    <p class="text-danger mt-4">I posti sono esauriti.</p>
+                    <button class="btn btn-primary btn-lg mt-4" disabled>Prenota</button>
+                {% else %}
+                    {% if evento_prenotato %}
+                        <p class="text-danger mt-4">Evento già prenotato</p>
+                    {% else %}
+                        {% if object.data|date:"Y-m-d" < today_date %}
+                            <p class="text-danger mt-4">Non puoi prenotare un evento che è già passato.</p>
+                            <button class="btn btn-primary btn-lg mt-4" disabled>Prenota</button>
+                        {% else %}
+                            <form action="{% url 'core:prenotazione_confermata' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{{ object.id }}">
+                                <button type="submit" class="btn btn-primary btn-lg mt-4">Prenota</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <hr>
+
+    <!--CONTAINER PER IL PUBBLICATORE-->
+    <div class="text-center my-5">
+        {% include "core/pubblicatore.html" with pubblicatore=object.pubblicatore mappa_html=mappa_html %}
+    </div>
+
+    <hr>
+
+    <!--CONTAINER PER I SUGGERITI-->
+    <div class="container py-5">
+        {% if suggested_eventi %}
+            <h4 class="text-center mb-5">Eventi suggeriti</h4>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for evento, voto in suggested_eventi %}
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <!-- Intestazione con nome del pubblicatore e nome dell'evento -->
+                            <div class="row mb-3">
+                                <div class="col-md-9">
+                                    <a href="{% url 'core:visualizza_pubblicatore' evento.pubblicatore_id %}" class="card-title">{{ evento.pubblicatore.user.username }}</a>
+                                    <h5>{{ evento.nome }}</h5>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <div class="ratings">
+                                        <b class="font-rating">{{ voto|floatformat:1 }}</b> <i class="fa fa-star rating-color"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Descrizione dell'evento -->
+                            <p class="description">{{ evento.descrizione }}</p>
+
+                            <!-- Tags dell'evento -->
+                            <div class="mb-3">
+                                <h6>Tags:</h6>
+                                {% if evento.tags.all %}
+                                    <div class="d-flex flex-wrap">
+                                        {% for tag in evento.tags.all %}
+                                            <span class="badge custom-badge">{{ tag.nome }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <p>Nessun tag disponibile.</p>
+                                {% endif %}
+                            </div>  
+
+                            <!-- Prezzo e pulsante di prenotazione -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3 class="text-primary">{{ evento.costo }}€</h3>
+                                {% if evento.data < today_date %}
+                                    <p class="text-danger">Evento passato</p>
+                                    <button class="btn btn-primary" disabled>Prenota</button>
+                                {% else %}
+                                    {% if evento.id in prenotati_ids %}
+                                        <p class="text-danger">Evento già prenotato</p>
+                                    {% else %}
+                                        <a href="{% url 'core:visualizza_evento' evento.id %}" class="btn btn-primary">PRENOTA</a>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h3 class="text-center">Nessun suggerimento trovato</h3>
+        {% endif %}
+    </div>
+    
+    <hr>
+
+    <!--CONTAINER PER LE RECENSIONI-->
+    <div id="recensioni-id" class="container py-5">
+        {% if recensioni.count > 0 %}
+            <h2 class="mb-3 text-center">Recensioni - Voto medio: {{ voto_medio }} <i class="fa fa-star rating-color"></i></h2>
+            {% for recensione in recensioni %}
+                {% include "core/recensione.html" with recensione=recensione %}
+            {% endfor %}
+            <!-- Paginazione -->
+                <nav aria-label="Paginazione Recensioni">
+                    <ul class="pagination pagination-sm justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if get_params %}&{{ get_params }}{% endif %}#recensioni-id">Precedente</a>
+                            </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                                <a class="page-link" href="?page={{ num }}{% if get_params %}&{{ get_params }}{% endif %}#recensioni-id">{{ num }}</a>
+                            </li>
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if get_params %}&{{ get_params }}{% endif %}#recensioni-id">Successiva</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+        {% else %}
+            <h3 class="text-center">Nessuna recensione trovata</h3>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+            language: 'it'
+        });
+        var today = moment().format('YYYY-MM-DD');
+        $('#data-prenotazione').val(today);
+        $('#data-prenotazione').change(function() {
+            updateOreLibere();
+        });
+    });
+</script>
+{% endblock %}

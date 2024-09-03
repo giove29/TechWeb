@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block head %} {% endblock %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+<style>
+    .custom-center {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    .rating-color {
+        color: #f5d105 !important;
+    }
+    .ratings i {
+        font-size: 24px;
+    }
+    .modal-content {
+        border-radius: 8px;
+    }
+    .card {
+        border-radius: 12px;
+        margin-top: 2rem;
+    }
+    .card-header {
+        background-color: #e0e0d1;
+        color: #333;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+    .card-body {
+        padding: 1.5rem;
+    }
+    .event-name {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+    .no-events-message {
+        text-align: center;
+        font-size: 1.25rem;
+        color: #777;
+    }
+</style>
+
+{% if "ok" in request.GET.registration %}
+<div id="info" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Benvenuto {{ request.user.username }}!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#info").modal('show');
+    });
+</script>
+{% endif %}
+
+{% if "ok" in request.GET.created %}
+<div id="info" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Evento creato con successo!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#info").modal('show');
+    });
+</script>
+{% endif %}
+
+{% if "no" in request.GET.created %}
+<div id="error-info" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Errore durante la creazione dell'evento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#error-info").modal('show');
+    });
+</script>
+{% endif %}
+
+{% if "ok" in request.GET.deleted %}
+<div id="info" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Evento eliminato con successo!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#info").modal('show');
+    });
+</script>
+{% endif %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div class="container mt-5">
+    {% if object_list|length == 0 %}
+        <h2 class="no-events-message">Nessun evento trovato. <a href="{% url 'core:crea_evento' %}" class="text-primary font-weight-bold">Crealo qui!</a></h2>
+    {% else %}
+        <div class="row">
+            <div class="col-md-12">
+                <section>
+                    <div class="container">
+                        <div class="row">
+                            <div class="mx-auto">
+                                <div class="card">
+                                    <div class="card-header text-center">
+                                        <h2>Eventi di {{ pubblicatore.user.username }}</h2>
+                                    </div>
+                                    <div class="card-body">
+                                        {% for item in object_list %}
+                                        <div class="row align-items-center mb-3">
+                                            <div class="col-md-4 event-name">{{ item.evento.nome }}</div>
+                                            <div class="col-md-2">{{ item.evento.gratis|yesno:"Gratuito,A pagamento" }}</div>
+                                            <div class="col-md-2">{{ item.evento.costo }}€</div>
+                                            <div class="col-md-2">{{ item.evento.tags.all|join:", " }}</div>
+                                            <div class="col-md-2">
+                                                <div class="ratings">
+                                                    <a href="{% url 'core:recensioni_evento' item.evento.id %}">
+                                                        <b style="font-size: 20px; color: #333;">{{ item.voto_medio|default:"Non calcolabile" }}</b>
+                                                        <i class="fa fa-star" style="color: #f5d105; font-size: 20px;"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <!-- Bottone per aprire il modal di conferma -->
+                                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal-elimina-{{ item.evento.id }}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash">
+                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
+                                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
+                                                    </svg>
+                                                    Elimina
+                                                </button>
+                                                <!-- Modal di conferma eliminazione -->
+                                                <div class="modal fade" id="modal-elimina-{{ item.evento.id }}" tabindex="-1" role="dialog" aria-labelledby="modal-elimina-{{ item.evento.id }}-label" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="modal-elimina-{{ item.evento.id }}-label">Conferma eliminazione</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Sei sicuro di voler eliminare l'evento "{{ item.evento.nome }}"?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                                                                <a href="{% url 'core:elimina_evento' item.evento.id %}" class="btn btn-danger">Elimina</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% empty %}
+                                        <h2 class="no-events-message">Nessun evento trovato.</h2>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <!-- Paginazione -->
+                                <div class="pagination-container mt-4">
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-center">
+                                            {% if page_obj.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Precedente</a>
+                                            </li>
+                                            {% endif %}
+                                            {% for num in page_obj.paginator.page_range %}
+                                            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                                                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                            </li>
+                                            {% endfor %}
+                                            {% if page_obj.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Successiva</a>
+                                            </li>
+                                            {% endif %}
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

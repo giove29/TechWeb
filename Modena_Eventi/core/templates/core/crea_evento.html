@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block title %} Creazione Evento {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card border-light shadow rounded">
+                <div class="card-header bg-custom-color text-dark text-center rounded-top">
+                    <h4 class="mb-0">Creazione Evento</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Campo Nome Evento -->
+                        <div class="mb-3">
+                            <label for="{{ form.nome.id_for_label }}" class="form-label">Nome Evento</label>
+                            {{ form.nome }}
+                            {% for error in form.nome.errors %}
+                                <div class="text-danger mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Campo Tags -->
+                        <div class="mb-3">
+                            <label for="{{ form.tags.id_for_label }}" class="form-label">Tags</label>
+                            {{ form.tags }}
+                            {% for error in form.tags.errors %}
+                                <div class="text-danger mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Campo Descrizione -->
+                        <div class="mb-3">
+                            <label for="{{ form.descrizione.id_for_label }}" class="form-label">Descrizione</label>
+                            {{ form.descrizione }}
+                            {% for error in form.descrizione.errors %}
+                                <div class="text-danger mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Campo Data -->
+                        <div class="mb-3">
+                            <label for="{{ form.data.id_for_label }}" class="form-label">Data</label>
+                            {{ form.data }}
+                            {% for error in form.data.errors %}
+                                <div class="text-danger mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Campo Costo -->
+                        <div class="mb-3">
+                            <label for="{{ form.costo.id_for_label }}" class="form-label">Costo</label>
+                            {{ form.costo }}
+                            {% for error in form.costo.errors %}
+                                <div class="text-danger mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Campo Numero Massimo di Partecipanti -->
+                        <div class="mb-3">
+                            <label for="{{ form.max.id_for_label }}" class="form-label">Numero Massimo di Partecipanti</label>
+                            {{ form.max }}
+                            {% for error in form.max.errors %}
+                                <div class="text-danger mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Campo Evento Gratuito -->
+                        <div class="mb-3">
+                            <label for="{{ form.gratis.id_for_label }}" class="form-check-label">Evento Gratuito</label>
+                            {{ form.gratis }}
+                            {% for error in form.gratis.errors %}
+                                <div class="text-danger mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Bottone di Invio -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary rounded-pill">Conferma</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CSS Integrato -->
+<style>
+    .card {
+        border-radius: 12px; /* Arrotonda gli angoli della card */
+    }
+    
+    .form-control {
+        border-radius: 8px; /* Arrotonda gli angoli degli input */
+        box-shadow: none; /* Rimuove l'ombra predefinita degli input */
+        border: 1px solid #ced4da; /* Colore del bordo per gli input */
+    }
+
+    .form-control:focus {
+        border-color: #142d4c; /* Colore del bordo quando in focus */
+        box-shadow: 0 0 0 0.2rem rgba(20, 45, 76, 0.25); /* Ombra leggera per il focus */
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #333; /* Colore del testo delle etichette */
+    }
+
+    .bg-custom-color {
+        background-color: #e0e0d1; /* Nuovo colore per l'intestazione */
+    }
+
+    .text-dark {
+        color: #333; /* Colore scuro per il testo */
+    }
+
+    .text-danger {
+        color: #dc3545; /* Colore rosso per gli errori */
+    }
+
+    .rounded-pill {
+        border-radius: 50rem; /* Arrotonda il pulsante in modo più accentuato */
+    }
+</style>
+
+{% endblock %}

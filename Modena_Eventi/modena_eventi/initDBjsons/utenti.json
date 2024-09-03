@@ -1,0 +1,134 @@
+[
+    {
+        "username": "Ivan",
+        "nome": "Ivan",
+        "cognome": "Giove",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Giulia",
+        "nome": "Giulia",
+        "cognome": "Rossi",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Marco",
+        "nome": "Marco",
+        "cognome": "Bianchi",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Sara",
+        "nome": "Sara",
+        "cognome": "Verdi",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Luca",
+        "nome": "Luca",
+        "cognome": "Galli",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Francesca",
+        "nome": "Francesca",
+        "cognome": "Ferrari",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Davide",
+        "nome": "Davide",
+        "cognome": "Moretti",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Martina",
+        "nome": "Martina",
+        "cognome": "Russo",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Giuseppe",
+        "nome": "Giuseppe",
+        "cognome": "Romano",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Valentina",
+        "nome": "Valentina",
+        "cognome": "Colombo",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Antonio",
+        "nome": "Antonio",
+        "cognome": "Greco",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Elena",
+        "nome": "Elena",
+        "cognome": "Caruso",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Riccardo",
+        "nome": "Riccardo",
+        "cognome": "Pellegrini",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Alessandra",
+        "nome": "Alessandra",
+        "cognome": "Giordano",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Paolo",
+        "nome": "Paolo",
+        "cognome": "Monti",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Ilaria",
+        "nome": "Ilaria",
+        "cognome": "De Luca",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Emanuele",
+        "nome": "Emanuele",
+        "cognome": "Mariani",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Silvia",
+        "nome": "Silvia",
+        "cognome": "Pinto",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Gabriele",
+        "nome": "Gabriele",
+        "cognome": "Santoro",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Laura",
+        "nome": "Laura",
+        "cognome": "Costa",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Stefano",
+        "nome": "Stefano",
+        "cognome": "Sorrentino",
+        "password": "SecurePass123!"
+    },
+    {
+        "username": "Alice",
+        "nome": "Alice",
+        "cognome": "Galli",
+        "password": "SecurePass123!"
+    }
+]

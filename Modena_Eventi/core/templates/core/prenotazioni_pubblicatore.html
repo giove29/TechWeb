@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block title %}Prenotazioni di {{ user.username }}{% endblock %}
+
+{% block content %}
+
+{% if 'ok' in request.GET %}
+<div id="info" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Prenotazione eliminata con successo!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div> 
+<script>
+    $(document).ready(function(){
+        $("#info").modal('show');
+    });
+</script>
+{% endif %}
+
+<style>
+    .disabled-btn {
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        color: gray;
+        cursor: not-allowed;
+    }
+
+    .card-header {
+        background-color: #e0e0d1; /* Beige */
+        color: #333; /* Colore scuro per il testo */
+        font-weight: bold;
+    }
+    
+    .card {
+        border-radius: 12px; /* Arrotonda gli angoli della card */
+    }
+
+    .no-reservation-message {
+        font-size: 1rem; /* Dimensione del testo più piccola */
+        color: #777; /* Colore del testo meno prominente */
+        text-align: center; /* Allineamento centrale */
+    }
+</style>
+
+<div class="container mt-5 content">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <section>
+                <div class="container">
+                    <div class="row">
+                        <div class="mx-auto">
+                            <div class="card">
+                                <div class="card-header text-center">
+                                    <h2>Prenotazioni di {{ user.username }}</h2>
+                                </div>
+                                <div class="card-body">
+                                    {% if prenotazioni %}
+                                    {% for prenotazione, futura in prenotazioni.items %}
+                                        <div class="row align-items-center mb-3">
+                                            <div class="col"><strong>Evento:</strong> {{ prenotazione.evento.nome }}</div>
+                                            <div class="col"><strong>Data evento:</strong> {{ prenotazione.evento.data|date:"d F Y" }}</div>
+                                            <div class="col"><strong>Utente:</strong> {{ prenotazione.utente.user.username }}</div>
+                                            <div class="col text-center">
+                                                <button type="button" class="btn btn-outline-danger {% if not futura %}disabled-btn{% endif %}"
+                                                    {% if futura %}
+                                                        data-toggle="modal" data-target="#modal-elimina-{{ prenotazione.id }}"
+                                                    {% endif %}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash">
+                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                                    </svg>
+                                                    Elimina
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Modale di Conferma Eliminazione -->
+                                        <div class="modal fade" id="modal-elimina-{{ prenotazione.id }}" tabindex="-1" role="dialog" aria-labelledby="modal-elimina-{{ prenotazione.id }}-label" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modal-elimina-{{ prenotazione.id }}-label">Conferma eliminazione</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Sei sicuro di voler eliminare la prenotazione per il {{ prenotazione.evento.data|date:"d F Y" }}?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                                                        <a href="{% url 'core:elimina_prenotazione' prenotazione.id %}" class="btn btn-danger" style="font-weight: bold">Elimina</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    {% endfor %}
+                                            
+                                    <!-- Paginazione -->
+                                    <div class="pagination-container">
+                                        <nav aria-label="Page navigation">
+                                            <ul class="pagination justify-content-center">
+                                                {% if page_obj.has_previous %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Precedente</a>
+                                                    </li>
+                                                {% endif %}
+                                                
+                                                {% if page_obj.paginator.num_pages > 2 %}
+                                                    <li class="page-item {% if page_obj.number == 1 %}active{% endif %}">
+                                                        <a class="page-link" href="?page=1">1</a>
+                                                    </li>
+                                                    
+                                                    {% if page_obj.number > 2 %}
+                                                        <li class="page-item disabled">
+                                                            <span class="page-link">...</span>
+                                                        </li>
+                                                    {% endif %}
+                                                
+                                                    {% if page_obj.number > 1 and page_obj.number < page_obj.paginator.num_pages %}
+                                                        <li class="page-item active">
+                                                            <a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
+                                                        </li>
+                                                    {% endif %}
+                                                
+                                                    {% if page_obj.number < page_obj.paginator.num_pages|add:"-1" %}
+                                                        <li class="page-item disabled">
+                                                            <span class="page-link">...</span>
+                                                        </li>
+                                                    {% endif %}
+                                                
+                                                    <li class="page-item {% if page_obj.number == page_obj.paginator.num_pages %}active{% endif %}">
+                                                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+                                                    </li>
+                                                {% endif %}
+                                                    
+                                                {% if page_obj.has_next %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Successiva</a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                    {% else %}
+                                        <h2 class="no-reservation-message">Nessuna prenotazione</h2>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script>
+    function validateDates() {
+        var startDate = document.getElementById('startDate').value;
+        var endDate = document.getElementById('endDate').value;
+        var errorMessage = document.getElementById('error-message');
+
+        if (new Date(endDate) < new Date(startDate)) {
+            errorMessage.style.display = 'block';
+            return false;
+        }
+
+        errorMessage.style.display = 'none';
+        return true;
+    }
+</script>
+
+{% endblock %}

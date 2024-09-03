@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}{{ object.user.username }}{% endblock %}
+
+{% block head %}
+<!-- Aggiungi qui eventuali CSS o script specifici per questa pagina -->
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Mostra l'alert se il parametro specificato è presente nell'URL -->
+    {% if "prenotazione" in request.GET and request.GET.prenotazione == 'esistente' %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Attenzione!</strong> La prenotazione è già stata effettuata.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <!-- Inclusione del template per i dettagli del pubblicatore -->
+            {% include "core/pubblicatore.html" with pubblicatore=object mappa_html=mappa_html eventi_prenotati_ids=eventi_prenotati_ids eventi_passati=eventi_passati eventi_futuri=eventi_futuri%}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

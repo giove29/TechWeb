@@ -1,0 +1,142 @@
+[
+    {
+        "Voto": 5,
+        "Testo": "Evento fantastico! Tutto è stato impeccabile e ben organizzato. Non vedo l'ora del prossimo!"
+    },
+    {
+        "Voto": 4,
+        "Testo": "Molto interessante e ben gestito. Alcuni piccoli dettagli potrebbero essere migliorati, ma nel complesso molto positivo."
+    },
+    {
+        "Voto": 3,
+        "Testo": "Evento carino, ma non ha rispettato completamente le aspettative. Buona organizzazione ma spazio per miglioramenti."
+    },
+    {
+        "Voto": 5,
+        "Testo": "Un'esperienza indimenticabile! L'evento è stato perfettamente organizzato e ogni dettaglio era curato."
+    },
+    {
+        "Voto": 2,
+        "Testo": "Deluso. L'evento è stato mal organizzato e ci sono stati diversi problemi tecnici."
+    },
+    {
+        "Voto": 4,
+        "Testo": "Ottima esperienza, con una buona varietà di attività. Alcuni aspetti potrebbero essere perfezionati, ma nel complesso molto soddisfacente."
+    },
+    {
+        "Voto": 3,
+        "Testo": "Interessante ma non eccezionale. L'organizzazione ha lasciato un po' a desiderare, ma il contenuto era buono."
+    },
+    {
+        "Voto": 5,
+        "Testo": "Eccezionale! La qualità dell'evento è stata superiore alle aspettative. Tornerò sicuramente per i prossimi eventi."
+    },
+    {
+        "Voto": 4,
+        "Testo": "Ben organizzato e coinvolgente. Alcuni aspetti potevano essere gestiti meglio, ma nel complesso è stato positivo."
+    },
+    {
+        "Voto": 3,
+        "Testo": "L'evento è stato nella media. Non male, ma non particolarmente memorabile."
+    },
+    {
+        "Voto": 2,
+        "Testo": "Purtroppo, l'evento non è stato all'altezza delle aspettative. Diverse aree necessitano di miglioramenti."
+    },
+    {
+        "Voto": 4,
+        "Testo": "Un buon evento, ben pianificato. Alcuni piccoli problemi, ma nulla che abbia rovinato l'esperienza complessiva."
+    },
+    {
+        "Voto": 5,
+        "Testo": "Perfetto in ogni dettaglio! L'evento è stato magnificamente organizzato e l'atmosfera era fantastica."
+    },
+    {
+        "Voto": 3,
+        "Testo": "L'evento è stato decente, ma c'erano diversi aspetti che potrebbero essere migliorati per una migliore esperienza."
+    },
+    {
+        "Voto": 4,
+        "Testo": "Buona organizzazione e ottimo contenuto. Alcuni aspetti logistici potrebbero essere migliorati."
+    },
+    {
+        "Voto": 2,
+        "Testo": "Non soddisfatto. L'evento ha avuto diversi problemi che hanno influito sull'esperienza."
+    },
+    {
+        "Voto": 5,
+        "Testo": "Straordinario! Ogni parte dell'evento è stata curata con grande attenzione ai dettagli. Altamente raccomandato."
+    },
+    {
+        "Voto": 4,
+        "Testo": "Molto ben organizzato e piacevole. Alcuni piccoli problemi, ma nel complesso è stata un'esperienza positiva."
+    },
+    {
+        "Voto": 3,
+        "Testo": "Niente di eccezionale, ma comunque un evento interessante. Alcuni problemi hanno influenzato l'esperienza."
+    },
+    {
+        "Voto": 5,
+        "Testo": "Eccellente! L'evento è stato perfettamente eseguito e ogni dettaglio era curato. Tornerò sicuramente."
+    },
+    {
+        "Voto": 4,
+        "Testo": "Ottimo evento, ben organizzato e coinvolgente. Alcuni dettagli potevano essere gestiti meglio, ma nel complesso molto positivo."
+    },
+    {
+        "Voto": 3,
+        "Testo": "L'evento era buono ma non eccezionale. La qualità era accettabile, ma c'erano delle aree che necessitavano di miglioramenti."
+    },
+    {
+        "Voto": 2,
+        "Testo": "Deluso. L'evento non ha rispettato le aspettative e ci sono stati diversi problemi durante la giornata."
+    },
+    {
+        "Voto": 5,
+        "Testo": "Un'esperienza magnifica! Tutto è stato curato nei minimi dettagli. Consigliatissimo!"
+    },
+    {
+        "Voto": 4,
+        "Testo": "Molto ben organizzato e coinvolgente. Alcuni piccoli problemi di coordinamento, ma nel complesso è stato positivo."
+    },
+    {
+        "Voto": 3,
+        "Testo": "L'evento è stato interessante, ma non ha completamente soddisfatto le aspettative. Alcuni miglioramenti sono necessari."
+    },
+    {
+        "Voto": 5,
+        "Testo": "Eccezionale! Ogni dettaglio dell'evento è stato perfetto. Complimenti agli organizzatori."
+    },
+    {
+        "Voto": 4,
+        "Testo": "Ben fatto e piacevole. Alcuni piccoli problemi logistici, ma nel complesso un evento di successo."
+    },
+    {
+        "Voto": 3,
+        "Testo": "Buono ma non eccezionale. L'organizzazione ha lasciato un po' a desiderare, ma l'evento è stato comunque interessante."
+    },
+    {
+        "Voto": 2,
+        "Testo": "Non soddisfatto. L'evento ha avuto diversi problemi che hanno influito sull'esperienza complessiva."
+    },
+    {
+        "Voto": 5,
+        "Testo": "Perfetto in ogni dettaglio! L'evento è stato ben organizzato e l'atmosfera era fantastica."
+    },
+    {
+        "Voto": 4,
+        "Testo": "Ottimo evento, ben organizzato e piacevole. Alcuni dettagli potevano essere migliori, ma è stato molto positivo."
+    },
+    {
+        "Voto": 3,
+        "Testo": "L'evento è stato nella media. Non eccezionale, ma comunque interessante e ben organizzato."
+    },
+    {
+        "Voto": 5,
+        "Testo": "Un evento indimenticabile! Tutto è stato curato nei minimi dettagli e l'atmosfera era fantastica."
+    },
+    {
+        "Voto": 4,
+        "Testo": "Ben organizzato e coinvolgente. Alcuni piccoli problemi, ma nulla di grave che abbia rovinato l'esperienza."
+    }
+]

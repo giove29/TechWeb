@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Recensioni {{ evento.nome }}{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    .custom-center {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    .rating-color {
+        color: #f5d105 !important;
+    }
+    .ratings i {
+        font-size: 24px;
+    }
+    .modal-content {
+        border-radius: 8px;
+    }
+    .card {
+        border-radius: 12px;
+        margin-top: 2rem;
+    }
+    .card-header {
+        background-color: #e0e0d1;
+        color: #333;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+    .card-body {
+        padding: 1.5rem;
+    }
+    .event-name {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+    .no-reviews-message {
+        text-align: center;
+        font-size: 1.25rem;
+        color: #777;
+    }
+    .review-card {
+        background: #ffffff;
+        color: #333;
+        border-radius: 12px;
+        border: 1px solid #e0e0e0;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .pagination-container {
+        margin-top: 40px;
+        text-align: center;
+    }
+    .pagination .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
+    .pagination .page-link {
+        color: #007bff;
+        border: none;
+        margin: 0 4px;
+        padding: 6px 12px;
+        transition: color 0.3s ease;
+    }
+    .pagination .page-link:hover {
+        color: #0056b3;
+        background-color: #f1f1f1;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Finestra Beige -->
+    <div class="card">
+        <div class="card-header text-center">
+            <h2>{{ evento.nome }}</h2>
+        </div>
+        <div class="card-body">
+            <!-- CONTENITORE PER LE RECENSIONI -->
+            <div id="recensioni-id">
+                {% if recensioni.count > 0 %}
+                    <h2 class="text-center mb-4">Recensioni - Voto medio: {{ voto_medio }} <i class="fa fa-star rating-color"></i></h2>
+                    {% for recensione in recensioni %}
+                        <div class="review-card">
+                            {% include "core/recensione.html" with recensione=recensione %}
+                        </div>
+                    {% endfor %}
+                    <!-- Paginazione -->
+                    <div class="pagination-container">
+                        <nav aria-label="Paginazione Recensioni">
+                            <ul class="pagination pagination-sm justify-content-center">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if get_params %}&{{ get_params }}{% endif %}#recensioni-id">Precedente</a>
+                                    </li>
+                                {% endif %}
+
+                                {% for num in page_obj.paginator.page_range %}
+                                    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                                        <a class="page-link" href="?page={{ num }}{% if get_params %}&{{ get_params }}{% endif %}#recensioni-id">{{ num }}</a>
+                                    </li>
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if get_params %}&{{ get_params }}{% endif %}#recensioni-id">Successiva</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                {% else %}
+                    <h2 class="no-reviews-message">Nessuna recensione</h2>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

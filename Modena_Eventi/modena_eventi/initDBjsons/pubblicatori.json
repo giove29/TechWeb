@@ -1,0 +1,194 @@
+[
+    {
+        "username": "Pub di Romeo",
+        "nome": "Pub di Romeo",
+        "descrizione": "Un accogliente pub con una vasta selezione di birre e piatti tipici.",
+        "latitudine": 44.6471,
+        "longitudine": 10.9252,
+        "password": "password123"
+    },
+    {
+        "username": "Ristorante La Dolce Vita",
+        "nome": "Ristorante La Dolce Vita",
+        "descrizione": "Ristorante elegante con piatti della cucina italiana e specialità locali.",
+        "latitudine": 44.6428,
+        "longitudine": 10.9244,
+        "password": "password123"
+    },
+    {
+        "username": "Caffè Centrale",
+        "nome": "Caffè Centrale",
+        "descrizione": "Caffè storico nel cuore di Modena, ideale per una pausa caffè.",
+        "latitudine": 44.6416,
+        "longitudine": 10.9270,
+        "password": "password123"
+    },
+    {
+        "username": "Teatro Comunale",
+        "nome": "Teatro Comunale",
+        "descrizione": "Teatro storico che ospita spettacoli teatrali e concerti.",
+        "latitudine": 44.6398,
+        "longitudine": 10.9266,
+        "password": "password123"
+    },
+    {
+        "username": "Museo Ferrari",
+        "nome": "Museo Ferrari",
+        "descrizione": "Museo dedicato alla storia e ai successi della Ferrari.",
+        "latitudine": 44.5332,
+        "longitudine": 10.9201,
+        "password": "password123"
+    },
+    {
+        "username": "Pizzeria Bella Napoli",
+        "nome": "Pizzeria Bella Napoli",
+        "descrizione": "Pizzeria con una vasta scelta di pizze tradizionali e gourmet.",
+        "latitudine": 44.6445,
+        "longitudine": 10.9264,
+        "password": "password123"
+    },
+    {
+        "username": "Palazzo Ducale",
+        "nome": "Palazzo Ducale",
+        "descrizione": "Storico palazzo che ospita il Museo Civico di Modena.",
+        "latitudine": 44.6454,
+        "longitudine": 10.9257,
+        "password": "password123"
+    },
+    {
+        "username": "CinemAstra",
+        "nome": "CinemAstra",
+        "descrizione": "Cinema con una programmazione di film recenti e classici.",
+        "latitudine": 44.6422,
+        "longitudine": 10.9288,
+        "password": "password123"
+    },
+    {
+        "username": "Bar Sport",
+        "nome": "Bar Sport",
+        "descrizione": "Bar moderno con schermi per eventi sportivi e una selezione di snack.",
+        "latitudine": 44.6410,
+        "longitudine": 10.9240,
+        "password": "password123"
+    },
+    {
+        "username": "Galleria d'Arte Moderna",
+        "nome": "Galleria d'Arte Moderna",
+        "descrizione": "Galleria che ospita esposizioni di arte moderna e contemporanea.",
+        "latitudine": 44.6435,
+        "longitudine": 10.9248,
+        "password": "password123"
+    },
+    {
+        "username": "Ristorante Il Gusto",
+        "nome": "Ristorante Il Gusto",
+        "descrizione": "Ristorante raffinato con piatti gourmet e una selezione di vini pregiati.",
+        "latitudine": 44.6406,
+        "longitudine": 10.9272,
+        "password": "password123"
+    },
+    {
+        "username": "Mercato Albinelli",
+        "nome": "Mercato Albinelli",
+        "descrizione": "Mercato coperto con una varietà di prodotti freschi e locali.",
+        "latitudine": 44.6418,
+        "longitudine": 10.9259,
+        "password": "password123"
+    },
+    {
+        "username": "Bistrot Delizia",
+        "nome": "Bistrot Delizia",
+        "descrizione": "Bistrot con un menu stagionale e un'atmosfera accogliente.",
+        "latitudine": 44.6430,
+        "longitudine": 10.9225,
+        "password": "password123"
+    },
+    {
+        "username": "Biblioteca Estense",
+        "nome": "Biblioteca Estense",
+        "descrizione": "Biblioteca storica con una vasta collezione di libri antichi e moderni.",
+        "latitudine": 44.6457,
+        "longitudine": 10.9261,
+        "password": "password123"
+    },
+    {
+        "username": "Brewery Modena",
+        "nome": "Brewery Modena",
+        "descrizione": "Birreria artigianale con una selezione di birre locali e internazionali.",
+        "latitudine": 44.6402,
+        "longitudine": 10.9285,
+        "password": "password123"
+    },
+    {
+        "username": "Pasticceria Dolce Sogno",
+        "nome": "Pasticceria Dolce Sogno",
+        "descrizione": "Pasticceria con una vasta scelta di dolci e pasticcini freschi.",
+        "latitudine": 44.6461,
+        "longitudine": 10.9238,
+        "password": "password123"
+    },
+    {
+        "username": "Parco Ducale",
+        "nome": "Parco Ducale",
+        "descrizione": "Ampio parco cittadino ideale per passeggiate e attività all'aperto.",
+        "latitudine": 44.6469,
+        "longitudine": 10.9215,
+        "password": "password123"
+    },
+    {
+        "username": "Caffè della Storia",
+        "nome": "Caffè della Storia",
+        "descrizione": "Caffè con un ambiente storico e una selezione di caffè e dolci.",
+        "latitudine": 44.6429,
+        "longitudine": 10.9262,
+        "password": "password123"
+    },
+    {
+        "username": "Ristorante L'Oasi",
+        "nome": "Ristorante L'Oasi",
+        "descrizione": "Ristorante con piatti tipici e una vista panoramica sulla città.",
+        "latitudine": 44.6449,
+        "longitudine": 10.9240,
+        "password": "password123"
+    },
+    {
+        "username": "Centro Commerciale Modena",
+        "nome": "Centro Commerciale Modena",
+        "descrizione": "Centro commerciale con una varietà di negozi e ristoranti.",
+        "latitudine": 44.6412,
+        "longitudine": 10.9227,
+        "password": "password123"
+    },
+    {
+        "username": "Osteria del Borgo",
+        "nome": "Osteria del Borgo",
+        "descrizione": "Osteria con specialità locali e un'atmosfera rustica.",
+        "latitudine": 44.6399,
+        "longitudine": 10.9250,
+        "password": "password123"
+    },
+    {
+        "username": "Pizzeria La Bella Napoli",
+        "nome": "Pizzeria La Bella Napoli",
+        "descrizione": "Pizzeria che offre una vasta scelta di pizze tradizionali e gourmet.",
+        "latitudine": 44.6443,
+        "longitudine": 10.9274,
+        "password": "password123"
+    },
+    {
+        "username": "Gastronomia Modena",
+        "nome": "Gastronomia Modena",
+        "descrizione": "Negozio di gastronomia con specialità locali e prelibatezze.",
+        "latitudine": 44.6438,
+        "longitudine": 10.9269,
+        "password": "password123"
+    },
+    {
+        "username": "Piazza Grande",
+        "nome": "Piazza Grande",
+        "descrizione": "Piazza principale di Modena, sede di eventi pubblici e mercati.",
+        "latitudine": 44.6456,
+        "longitudine": 10.9260,
+        "password": "password123"
+    }
+]

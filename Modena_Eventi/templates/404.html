@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %} Risorsa non trovata {% endblock %} 
+
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="col-md-6">
+        <section>
+            <div class="card text-center border-0 shadow-sm">
+                <div class="card-body">
+                    <h1 class="display-4 text-danger">Errore 404</h1>
+                    <p class="lead text-muted">Risorsa non trovata.</p>
+                    <p class="mt-4">
+                        Torna alla <a href="/" class="text-primary">home page</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+{% endblock %}

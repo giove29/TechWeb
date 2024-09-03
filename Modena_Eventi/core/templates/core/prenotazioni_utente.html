@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block title %}Prenotazioni di {{ user.username }}{% endblock %}
+
+{% block content %}
+    <!-- Alert per la corretta eliminazione della prenotazione -->
+    {% if "ok" in request.GET.prenotazionedeleted %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Prenotazione eliminata con successo!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+
+    <!-- Alert per la corretta registrazione della recensione -->
+    {% if "ok" in request.GET.review %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Hai registrato la tua recensione!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+
+    <!-- Alert errore recensione -->
+    {% if "no" in request.GET.review %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Errore nella registrazione della tua recensione!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+
+
+<style>
+    .modal-content {
+        border-radius: 10px; /* Angoli arrotondati per il contenuto del modal */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra leggera */
+        padding: 20px; /* Padding interno */
+    }
+    
+    .modal-header {
+        border-bottom: 1px solid #dee2e6; /* Linea sottile nella parte inferiore dell'intestazione */
+    }
+    
+    .modal-title {
+        font-size: 1.25rem; /* Dimensione del font dell'intestazione */
+        font-weight: 600; /* Peso del font più pesante */
+    }
+    
+    .modal-footer {
+        border-top: 1px solid #dee2e6; /* Linea sottile nella parte superiore del footer */
+    }
+    
+    .btn-secondary{
+        border-radius: 25px; /* Angoli arrotondati per i pulsanti */
+        padding: 10px 20px; /* Spaziatura interna dei pulsanti */
+    }
+
+
+    
+    .btn-secondary {
+        background-color: #6c757d; /* Colore di sfondo grigio */
+        border: none; /* Rimuove il bordo del pulsante */
+        font-weight: 500; /* Peso del font del pulsante */
+    }
+
+    .star-rating {
+        display: inline-flex;
+        font-size: 1rem; /* Dimensione delle stelle */
+        color: #ddd; /* Colore delle stelle vuote */
+    }
+    
+    .star.filled {
+        color: #f39c12; /* Colore delle stelle riempite */
+    }
+    
+    .event-name-container {
+        display: flex;
+        align-items: center;
+        font-size: 1rem; /* Dimensione del testo del nome dell'evento */
+    }
+
+    .event-name-container .event-name {
+        margin-right: 8px; /* Spazio tra il nome e le stelle */
+    }
+    
+    .review-text {
+        margin-left: 8px; /* Spazio tra le stelle e il testo della recensione */
+        color: #6c757d; /* Colore leggero per il testo della recensione */
+        font-style: italic; /* Testo in corsivo per un aspetto più sottile */
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Prenotazioni Future -->
+            <div class="col-md-6 mb-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white text-center">
+                        <h4>Prenotazioni Future</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if prenotazioni_future %}
+                            {% for prenotazione in prenotazioni_future %}
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div>
+                                        <p class="mb-1 font-weight-bold">{{ prenotazione.evento.data|date:"d F Y" }}</p>
+                                        <p class="text-muted event-name-container">
+                                            <span class="event-name">{{ prenotazione.evento.nome }}</span>
+                                            {% if prenotazione.recensione %}
+                                                <div class="star-rating">
+                                                    {% for i in range %}
+                                                        <span class="star {% if i <= prenotazione.recensione.voto %}filled{% endif %}">&#9733;</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <span class="review-text">{{ prenotazione.recensione.testo }}</span>
+                                            {% endif %}
+                                            
+                                        </p>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#modal-elimina-{{ prenotazione.id }}">
+                                        <i class="bi bi-trash"></i> Elimina
+                                    </button>
+                                </div>
+
+                                <!-- Modal per eliminazione -->
+                                <div class="modal fade" id="modal-elimina-{{ prenotazione.id }}" tabindex="-1" aria-labelledby="modal-elimina-{{ prenotazione.id }}-label" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modal-elimina-{{ prenotazione.id }}-label">Conferma eliminazione</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Sei sicuro di voler eliminare la prenotazione per il {{ prenotazione.evento.data|date:"d F Y" }}?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annulla</button>
+                                                <a href="{% url 'core:elimina_prenotazione' prenotazione.id %}" class="btn btn-danger btn-sm">Elimina</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <!-- Paginazione Prenotazioni Future -->
+                            <nav aria-label="Paginazione Prenotazioni Future" class="mt-4">
+                                <ul class="pagination pagination-sm justify-content-center">
+                                    {% if prenotazioni_future_page_obj.has_previous %}
+                                        <li class="page-item"><a class="page-link" href="?page_future={{ prenotazioni_future_page_obj.previous_page_number }}">Precedente</a></li>
+                                    {% endif %}
+                                    {% for num in prenotazioni_future_page_obj.paginator.page_range %}
+                                        <li class="page-item {% if prenotazioni_future_page_obj.number == num %}active{% endif %}">
+                                            <a class="page-link" href="?page_future={{ num }}">{{ num }}</a>
+                                        </li>
+                                    {% endfor %}
+                                    {% if prenotazioni_future_page_obj.has_next %}
+                                        <li class="page-item"><a class="page-link" href="?page_future={{ prenotazioni_future_page_obj.next_page_number }}">Successiva</a></li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% else %}
+                            <p class="text-center text-muted">Nessuna prenotazione futura</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prenotazioni Passate -->
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white text-center">
+                        <h4>Prenotazioni Passate</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if prenotazioni_passate %}
+                            {% for prenotazione, voto in prenotazioni_passate %}
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div>
+                                        <p class="mb-1 font-weight-bold">{{ prenotazione.evento.data|date:"d F Y" }}</p>
+                                        <p class="text-muted event-name-container">
+                                            <span class="event-name">{{ prenotazione.evento.nome }}</span>
+                                            {% if voto %}
+                                                <div class="star-rating">
+                                                    {% for i in range %}
+                                                        <span class="star {% if i <= voto %}filled{% endif %}">&#9733;</span>
+                                                    {% endfor %}
+                                                </div>
+                                                {% if prenotazione.recensione %}
+                                                    <span class="review-text">{{ prenotazione.recensione.testo }}</span>
+                                                {% endif %}
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    <!-- Controllo per mostrare il pulsante "Recensisci" o disabilitarlo -->
+                                    {% if voto %}
+                                        <button type="button" class="btn btn-outline-warning btn-sm disabled-btn" disabled style="color:gray; border-color: #ccc;">
+                                            <i class="bi bi-pencil"></i> Recensisci
+                                        </button>
+                                    {% else %}
+                                        <button type="button" class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#modal-recensione-{{ prenotazione.id }}">
+                                            <i class="bi bi-pencil"></i> Recensisci
+                                        </button>
+                                    {% endif %}
+                                </div>
+
+                                {% if not voto %}
+                                    <!-- Modal per aggiungere una recensione -->
+                                    <div class="modal fade" id="modal-recensione-{{ prenotazione.id }}" tabindex="-1" aria-labelledby="modal-recensione-label-{{ prenotazione.id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modal-recensione-label-{{ prenotazione.id }}">Recensione per l'evento: {{ prenotazione.evento }}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form method="post" action="{% url 'core:salva_recensione' prenotazione.id %}">
+                                                    {% csrf_token %}
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="id_voto">Voto (da 1 a 5):</label>
+                                                            <input type="number" id="id_voto" name="voto" min="1" max="5" class="form-control" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="id_testo">Recensione:</label>
+                                                            <textarea id="id_testo" name="testo" rows="4" class="form-control" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                                                        <button type="submit" class="btn btn-primary">Conferma</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                            <!-- Paginazione Prenotazioni Passate -->
+                            <nav aria-label="Paginazione Prenotazioni Passate" class="mt-4">
+                                <ul class="pagination pagination-sm justify-content-center">
+                                    {% if prenotazioni_passate_page_obj.has_previous %}
+                                        <li class="page-item"><a class="page-link" href="?page_passate={{ prenotazioni_passate_page_obj.previous_page_number }}">Precedente</a></li>
+                                    {% endif %}
+                                    {% for num in prenotazioni_passate_page_obj.paginator.page_range %}
+                                        <li class="page-item {% if prenotazioni_passate_page_obj.number == num %}active{% endif %}">
+                                            <a class="page-link" href="?page_passate={{ num }}">{{ num }}</a>
+                                        </li>
+                                    {% endfor %}
+                                    {% if prenotazioni_passate_page_obj.has_next %}
+                                        <li class="page-item"><a class="page-link" href="?page_passate={{ prenotazioni_passate_page_obj.next_page_number }}">Successiva</a></li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% else %}
+                            <p class="text-center text-muted">Nessuna prenotazione passata</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script per la validazione delle date -->
+    <script>
+        function validateDates() {
+            var startDate = document.getElementById('startDate').value;
+            var endDate = document.getElementById('endDate').value;
+            var errorMessage = document.getElementById('error-message');
+
+            if (new Date(endDate) < new Date(startDate)) {
+                errorMessage.style.display = 'block';
+                return false;
+            }
+
+            errorMessage.style.display = 'none';
+            return true;
+        }
+    </script>
+{% endblock %}

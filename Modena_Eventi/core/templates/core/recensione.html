@@ -1,0 +1,30 @@
+<div class="container container-review mb-5" style="max-width: 1010px;">
+    <div class="row">
+        <!-- Sezione utente -->
+        <div class="col-md-2 text-center user-section p-4 border-right">
+            <h5 class="text-white mb-0">{{ recensione.utente.user.username }}</h5>
+        </div>
+        
+        <!-- Sezione recensione -->
+        <div class="col-md-10 review-section p-4 rounded-right">
+            <!-- Data recensione -->
+            <div class="row mb-2">
+                <h5 class="text-dark">{{ recensione.data_recensione }}</h5>
+            </div>
+
+            <!-- Voto -->
+            <div class="row mb-3">
+                <div class="ratings d-flex">
+                    {% for star in "12345" %}
+                        <i class="fa fa-star {% if forloop.counter <= recensione.voto %}rating-color{% endif %}"></i>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Testo recensione -->
+            <div class="row">
+                <p>{{ recensione.testo }}</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+<div class="container py-4 border rounded bg-light text-dark">
+    <div class="text-center mb-4">
+        <h1 class="display-4">{{ pubblicatore.user.username }}</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h2 class="card-title mb-3">Chi siamo</h2>
+                    <p class="card-text text-muted">{{ pubblicatore.descrizione }}</p>
+                    
+                    <!-- Eventi Futuri -->
+                    <h4 class="card-title mt-4">I nostri Eventi Futuri</h4>
+                    {% if eventi_futuri %}
+                        <ul class="list-unstyled">
+                            {% for evento in eventi_futuri %}
+                                {% if evento.id != object.id %}
+                                    <li class="mb-2">
+                                        {% if evento.id in eventi_prenotati_ids %}
+                                            <a href="{% url 'core:visualizza_evento' evento.id %}" class="text-dark">
+                                                {{ evento.nome }} - {{ evento.gratis|yesno:"Gratuito,A pagamento" }}
+                                                {% if not evento.gratis %} - {{ evento.costo }}€{% endif %}
+                                                <span class="text-danger font-italic"> (Già prenotato)</span>
+                                            </a>
+                                        {% else %}
+                                            <a href="{% url 'core:visualizza_evento' evento.id %}" class="text-dark">
+                                                {{ evento.nome }} - {{ evento.gratis|yesno:"Gratuito,A pagamento" }}
+                                                {% if not evento.gratis %} - {{ evento.costo }}€{% endif %}
+                                            </a>
+                                        {% endif %}
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">Non ci sono eventi futuri al momento.</p>
+                    {% endif %}
+                    
+                    <!-- Eventi Passati -->
+                    <h4 class="card-title mt-4">Eventi Passati</h4>
+                    <ul class="list-unstyled">
+                        {% for evento in eventi_passati %}
+                            {% if evento.id != object.id %}
+                                <li class="mb-2">
+                                    <a href="{% url 'core:visualizza_evento' evento.id %}" class="text-dark">
+                                        {{ evento.nome }} - {{ evento.data|date:"d F Y" }} 
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h2 class="card-title mb-3">Contatti</h2>
+                    <p class="card-text">Latitudine: {{ pubblicatore.latitudine }}</p>
+                    <p class="card-text">Longitudine: {{ pubblicatore.longitudine }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sezione della mappa -->
+    <div class="mt-4">
+        <h3 class="mb-3">Posizione sulla Mappa</h3>
+        <div class="border rounded overflow-hidden">
+            {{ mappa_html|safe }}
+        </div>
+    </div>
+</div>
