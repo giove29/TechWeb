@@ -238,7 +238,7 @@ class PrenotazioniPubblicatoreView(UtentePubblicatore, TemplateView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         pubblicatore = get_object_or_404(Pubblicatore, user = user)
-        prenotazioni = Prenotazione.objects.filter(evento__pubblicatore=pubblicatore).order_by("evento__data")
+        prenotazioni = Prenotazione.objects.filter(evento__pubblicatore=pubblicatore).order_by("-evento__data")
         
         now = timezone.localtime(timezone.now())
         prenotazioni_dict = {
@@ -520,6 +520,7 @@ def create_evento(request):
     return render(request, "core/crea_evento.html", {"form": form})
 
 def elimina_evento(request, pk):
+    print(request.method)
     if request.method == "POST":
         evento = get_object_or_404(Evento, pk=pk)
         #forse c'è bisogno di un try-except
@@ -530,7 +531,7 @@ def elimina_evento(request, pk):
         
         evento.delete()
         return redirect(reverse("core:gestisci_eventi") + "?deleted=ok")
-    return PermissionDenied
+    raise PermissionDenied
 
 def elimina_prenotazione(request, pk):
     prenotazione = get_object_or_404(Prenotazione, pk=pk)

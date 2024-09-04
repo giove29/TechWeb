@@ -13,7 +13,7 @@ class UtenteSignUpForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ["username", "nome", "cognome", "password1", "password2"]
+        fields = ["username", "nome", "cognome", "password1", "password2", "img"]
 
     @transaction.atomic
     def save(self):
@@ -22,11 +22,11 @@ class UtenteSignUpForm(UserCreationForm):
         user.is_utente = True
         user.first_name = self.cleaned_data.get('nome')
         user.last_name = self.cleaned_data.get('cognome')
+        user.img = self.cleaned_data.get("img")
         user.save()
         #-----
         utente = Utente.objects.create(
-            user=user,
-            #email=self.cleaned_data.get('email')
+            user=user
         )
         utente.save()
         return user
@@ -34,40 +34,42 @@ class UtenteSignUpForm(UserCreationForm):
 class PubblicatoreSignUpForm(UserCreationForm):
     nome = forms.CharField(label = "Nome del Pubblicatore", required=True)
 
-    descrizione = forms.CharField(label="descrizione",
-                                  widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Inserisci una descrizione...'}))
+    descrizione = forms.CharField(label="descrizione", widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Inserisci una descrizione...'}))
     latitudine = forms.FloatField(label = "latitudine")
     longitudine = forms.FloatField(label="longitudine")
+    numTelefono = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ["username", "nome", "descrizione", "latitudine", "longitudine"]
+        fields = ["username", "nome", "descrizione", "latitudine", "longitudine", "numTelefono", "img"]
 
     @transaction.atomic
     def save(self):
         user = super().save(commit=False) 
         user.is_pubblicatore = True
         user.first_name = self.cleaned_data.get("nome")
+        user.img = self.cleaned_data.get("img")
         user.save()
 
         pubblicatore = Pubblicatore.objects.create(
             user = user,
             descrizione = self.cleaned_data.get("descrizione"),
             latitudine = self.cleaned_data.get("latitudine"),
-            longitudine = self.cleaned_data.get("longitudine")
+            longitudine = self.cleaned_data.get("longitudine"),
+            numTelefono=self.cleaned_data.get('numTelefono')
         )
         pubblicatore.save()
         
-        #----Probabilmente in questa zona dovrà andare la creazione del punto nella mappa collegato 1:1 con i pubblicatori
         return user
     
 class UpdateUserForm(forms.ModelForm):
     first_name = forms.CharField(required=True,
                              widget=forms.TextInput(attrs={'class': 'form-control'}))
+    img = forms.ImageField(required=True, widget=forms.ClearableFileInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
-        fields = ['first_name']
+        fields = ['first_name', "img"]
     
 class UpdatePubblicatoreForm(forms.ModelForm):
     descrizione = forms.CharField(required=True,
@@ -76,10 +78,11 @@ class UpdatePubblicatoreForm(forms.ModelForm):
                                   widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Inserisci la latitudine'}))
     longitudine = forms.FloatField(required=True,
                                   widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Inserisci la longitudine'}))
+    numTelefono = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Pubblicatore
-        fields = ["descrizione", "latitudine", "longitudine"]
+        fields = ["descrizione", "latitudine", "longitudine", "numTelefono"]
 
 class CambiaPasswordForm(PasswordChangeForm):
     old_password = forms.CharField(

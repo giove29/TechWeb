@@ -3,6 +3,26 @@
 {% block title %}Modifica dati profilo{% endblock title %}
 {% load static %}
 
+<style>
+  .image-container {
+      width: 170px;
+      height: 170px;
+      border: solid;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;  /* Aggiungi questa riga per centrare il contenitore dell'immagine */
+  }
+  
+  .image-container img {
+      width: 150%;
+      height: 150%;
+      object-fit: cover;
+  }
+</style>
+
 {% block content %}
   <div class="container mt-5">
     <div class="row justify-content-center">
@@ -21,6 +41,12 @@
               <div class="form-group mt-3">
                 <label for="id_last_name" class="form-label"><strong>Cognome</strong></label>
                 <input type="text" id="id_last_name" name="last_name" value="{{ user.last_name }}" class="form-control">
+              </div>
+              <div class="row pt-3 justify-content-center">  
+                <label for="id_img" class="col-md-4 col-form-label text-md-right"><strong>Immagine </strong></label>     
+                <div class="col">
+                    <input type="file" id="id_img" name="img" class="form-control">
+                </div>
               </div>
               <div class="text-center mt-4">
                 <a href="{% url 'utenti:view_profile' %}" class="btn btn-outline-secondary mr-2" style="border-radius: 25px;">Annulla</a>

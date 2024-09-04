@@ -4,86 +4,78 @@
 {% block title %} Profilo di {{ user.username }} {% endblock %}
 
 {% block content %}
+<style>
+    .image-container {
+        width: 170px;
+        height: 170px;
+        border: solid;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;  /* Aggiungi questa riga per centrare il contenitore dell'immagine */
+    }
+    
+    .image-container img {
+        width: 150%;
+        height: 150%;
+        object-fit: cover;
+    }
 
-    <!-- Modali per messaggi di successo e errore -->
+    /* Alerts */
+    .alert {
+        border-radius: 0.5rem;
+    }
+    .card-header {
+        background-color: #e0e0d1; /* Beige */
+        color: #333; /* Colore scuro per il testo */
+        font-weight: bold;
+    }
+    
+    .card {
+        border-radius: 12px; /* Arrotonda gli angoli della card */
+    }
+</style>
+
+<!-- Aggiungi i link ai file CSS e JavaScript di Selectize.js -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap5.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
+    
+
+    <!-- Alert per la corretta modifica dati -->
     {% if "ok" in request.GET.modified %}
-    <div id="info" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalSuccessLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalSuccessLabel">Modifiche avvenute con successo!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Chiudi</button>
-                </div>
-            </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Modifiche avvenute con successo!</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </div>
-    <script>
-        $(document).ready(function(){
-            $("#info").modal('show');
-        });
-    </script>
     {% endif %}
 
-    {% if "no" in request.GET.modified %}
-    <div id="error-info" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalErrorLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalErrorLabel">Errore durante l'operazione!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>I seguenti eventi non erano in un formato valido:</p>
-                    <ul>
-                        {% for key, value in request.GET.items %}
-                            {% if key != "modified" %}
-                                <li>{{ key }}</li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        $(document).ready(function(){
-            $("#error-info").modal('show');
-        });
-    </script>
-    {% endif %}
-
+    <!-- Alert per la corretta modifica pw -->
     {% if "ok" in request.GET.changed %}
-    <div id="password-change" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalPasswordChangeLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalPasswordChangeLabel">Password cambiata con successo!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Chiudi</button>
-                </div>
-            </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Password cambiata con successo!</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </div>
-    <script>
-        $(document).ready(function(){
-            $("#password-change").modal('show');
-        });
-    </script>
     {% endif %}
+
+    <!-- Alert per errore di modifica dati -->
+    {% if "no" in request.GET.modified %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Errore durante l'operazione!</strong>
+        <p>I seguenti eventi non erano in un formato valido:</p>
+        <ul>
+            {% for key, value in request.GET.items %}
+                {% if key != "modified" %}
+                    <li>{{ key }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
+
 
     <!-- Profilo Utente -->
     <div class="container mt-4">
@@ -100,6 +92,7 @@
                             <dd class="col-sm-9">{{ user.first_name }}</dd>
                             <dt class="col-sm-3">Cognome:</dt>
                             <dd class="col-sm-9">{{ user.last_name }}</dd>
+                            <dd class="image-container"><img src="{{ user.img.url }}" alt="Profile Image"></dd>
                         </dl>
                         {% elif user.is_pubblicatore %}
                         <h4 class="text-center">Dati del Pubblicatore</h4>
@@ -110,6 +103,9 @@
                             <dd class="col-sm-9">{{ pubblicatore.longitudine }}</dd>
                             <dt class="col-sm-3">Descrizione:</dt>
                             <dd class="col-sm-9">{{ pubblicatore.descrizione }}</dd>
+                            <dt class="col-sm-3">Telefono:</dt>
+                            <dd class="col-sm-9">{{ pubblicatore.numTelefono }}</dd>
+                            <dd class="image-container"><img src="{{ user.img.url }}" alt="Profile Image"></dd>
                         </dl>
                         {% endif %}
                         <div class="text-center mt-4">
@@ -121,17 +117,5 @@
             </div>
         </div>
     </div>
-
-<style>
-    .card-header {
-        background-color: #e0e0d1; /* Beige */
-        color: #333; /* Colore scuro per il testo */
-        font-weight: bold;
-    }
-    
-    .card {
-        border-radius: 12px; /* Arrotonda gli angoli della card */
-    }
-</style>
 
 {% endblock %}

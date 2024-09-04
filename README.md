@@ -35,9 +35,10 @@ pipenv install -r requirements.txt
 #### Installazione Mauale dei requisiti
 ```
 pipenv shell
-pipenv install django
-pipenv install django-widget-tweaks
-pipenv install folium
+pip install django
+pip install django-widget-tweaks
+pip install folium
+pip install pillow
 ```
 Blocca le dipendenze:
 ```

@@ -48,90 +48,48 @@
     }
 </style>
 
+<!-- Alert per la corretta registrazione -->
 {% if "ok" in request.GET.registration %}
-<div id="info" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Benvenuto {{ request.user.username }}!</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-info" data-bs-dismiss="modal">Chiudi</button>
-            </div>
-        </div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Benvenuto {{ request.user.username }}!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-</div>
-<script>
-    $(document).ready(function(){
-        $("#info").modal('show');
-    });
-</script>
 {% endif %}
 
+<!-- Alert la corretta creazione di evento -->
 {% if "ok" in request.GET.created %}
-<div id="info" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Evento creato con successo!</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-info" data-bs-dismiss="modal">Chiudi</button>
-            </div>
-        </div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Evento creato con successo!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-</div>
-<script>
-    $(document).ready(function(){
-        $("#info").modal('show');
-    });
-</script>
 {% endif %}
 
+<!-- Alert per l'errata creazione di evento -->
 {% if "no" in request.GET.created %}
-<div id="error-info" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Errore durante la creazione dell'evento</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Chiudi</button>
-            </div>
-        </div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Errore durante la creazione dell'evento!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-</div>
-<script>
-    $(document).ready(function(){
-        $("#error-info").modal('show');
-    });
-</script>
 {% endif %}
 
+<!-- Alert per la corretta eliminazione di evento -->
 {% if "ok" in request.GET.deleted %}
-<div id="info" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Evento eliminato con successo!</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-info" data-bs-dismiss="modal">Chiudi</button>
-            </div>
-        </div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Evento eliminato con successo!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-</div>
-<script>
-    $(document).ready(function(){
-        $("#info").modal('show');
-    });
-</script>
 {% endif %}
+
+
+<!-- Include Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<!-- Aggiungi i link ai file CSS e JavaScript di Selectize.js -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap5.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
+
+
+
 
 <div class="container mt-5">
     {% if object_list|length == 0 %}
@@ -184,7 +142,10 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                                                                <a href="{% url 'core:elimina_evento' item.evento.id %}" class="btn btn-danger">Elimina</a>
+                                                                <form method="POST" action="{% url 'core:elimina_evento' item.evento.id %}">
+                                                                    {% csrf_token %}
+                                                                    <button type="submit" class="btn btn-danger">Elimina</button>
+                                                                </form>
                                                             </div>
                                                         </div>
                                                     </div>

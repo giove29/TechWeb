@@ -3,6 +3,26 @@
 {% block title %}Modifica dati profilo{% endblock %}
 
 {% block content %}
+<style>
+    .image-container {
+        width: 170px;
+        height: 170px;
+        border: solid;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;  /* Aggiungi questa riga per centrare il contenitore dell'immagine */
+    }
+    
+    .image-container img {
+        width: 150%;
+        height: 150%;
+        object-fit: cover;
+    }
+</style>
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -17,20 +37,26 @@
 
                             <!-- Nome Pubblicatore -->
                             <div class="mb-3">
-                                <label for="id_nome" class="form-label"><strong>Nome Pubblicatore</strong></label>
-                                <input type="text" id="id_nome" name="nome" value="{{ initial_data.init_nome }}" class="form-control" required>
+                                <label for="id_first_name" class="form-label"><strong>Nome Pubblicatore</strong></label>
+                                <input type="text" id="id_first_name" name="first_name" value="{{ initial_data.init_nome }}" class="form-control" required>
                             </div>
 
                             <!-- Latitudine -->
                             <div class="mb-3">
                                 <label for="id_latitudine" class="form-label"><strong>Latitudine</strong></label>
-                                <textarea id="id_latitudine" name="latitudine" class="form-control" rows="2" required>{{ initial_data.init_latitudine }}</textarea>
+                                <input type="number" id="id_latitudine" name="latitudine" value="{{ initial_data.init_latitudine }}" class="form-control" required>
                             </div>
 
                             <!-- Longitudine -->
                             <div class="mb-3">
                                 <label for="id_longitudine" class="form-label"><strong>Longitudine</strong></label>
-                                <textarea id="id_longitudine" name="longitudine" class="form-control" rows="2" required>{{ initial_data.init_longitudine }}</textarea>
+                                <input type="number" id="id_longitudine" name="longitudine" value="{{ initial_data.init_longitudine }}" class="form-control" required>
+                            </div>
+
+                            <!-- Telefono -->
+                            <div class="mb-3">
+                                <label for="id_numTelefono" class="form-label"><strong>Telefono:</strong></label>
+                                <input type="text" id="id_numTelefono" name="numTelefono" value="{{ initial_data.init_numTelefono }}" class="form-control" required>
                             </div>
 
                             <!-- Descrizione -->
@@ -39,11 +65,20 @@
                                 <textarea id="id_descrizione" name="descrizione" class="form-control" rows="3" required>{{ initial_data.init_descrizione }}</textarea>
                             </div>
 
+                            <!-- Immagine -->
+                            <div class="row pt-3 justify-content-center">  
+                                <label for="id_img" class="col-md-4 col-form-label text-md-right"><strong>Immagine </strong></label>     
+                                <div class="col">
+                                    <input type="file" id="id_img" name="img" class="form-control">
+                                </div>
+                              </div>
+
                             <!-- Bottoni -->
                             <div class="d-flex justify-content-between pt-3">
                                 <a href="{% url 'utenti:view_profile' %}" class="btn btn-outline-secondary" style="border-radius: 20px;">Annulla</a>
                                 <button type="submit" class="btn btn-primary btn-rounded" style="border-radius: 20px;">Salva</button>
                             </div>
+                            
                         </form>
                     </div>
                 </div>

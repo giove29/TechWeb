@@ -5,28 +5,13 @@
 
 {% block content %}
 <style>
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-        color: #fff;
-        transition: background-color 0.3s ease, border-color 0.3s ease;
-    }
-    .btn-primary:hover,
-    .btn-primary:focus {
-        background-color: #0056b3;
-        border-color: #0056b3;
+    .card-header {
+        background-color: #e0e0d1; /* Beige */
+        color: #333; /* Colore scuro per il testo */
+        font-weight: bold;
     }
     .card {
-        border: none;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-    }
-    .card-header {
-        background-color: #007bff;
-        color: #fff;
-        border-bottom: none;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
+        border-radius: 12px; /* Arrotonda gli angoli della card */
     }
     .form-control {
         border-radius: 5px;
@@ -61,12 +46,9 @@
                     <h2>Registrazione Pubblicatore</h2>
                 </div>
                 <div class="card-body px-4">
-                    <form action="{% url 'utenti:pubblicatore_registration' %}" method="POST" novalidate>
+                    <form action="{% url 'utenti:pubblicatore_registration' %}" method="POST" enctype="multipart/form-data" novalidate>
                         {% csrf_token %}
                         {% for field in form.visible_fields %}
-                            {% if field.label == "Nome del Pubblicatore" or field.label == "Username" %}
-                                <h4 class="pt-3 pb-1">Dati Pubblicatore</h4>
-                            {% endif %}
                             <div class="mb-3">
                                 <label for="{{ field.id_for_label }}" class="form-label">
                                     {% if field.label == "Password confirmation" %}

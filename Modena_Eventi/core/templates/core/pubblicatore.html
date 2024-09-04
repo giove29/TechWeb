@@ -1,6 +1,27 @@
+<style>
+    .image-container {
+        width: 170px;
+        height: 170px;
+        border: solid;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;  /* Aggiungi questa riga per centrare il contenitore dell'immagine */
+    }
+    
+    .image-container img {
+        width: 150%;
+        height: 150%;
+        object-fit: cover;
+    }
+</style>
+
 <div class="container py-4 border rounded bg-light text-dark">
     <div class="text-center mb-4">
         <h1 class="display-4">{{ pubblicatore.user.username }}</h1>
+        <dd class="image-container"><img src={{pubblicatore.user.img.url}} ></dd>
     </div>
 
     <div class="row">
@@ -60,6 +81,7 @@
                     <h2 class="card-title mb-3">Contatti</h2>
                     <p class="card-text">Latitudine: {{ pubblicatore.latitudine }}</p>
                     <p class="card-text">Longitudine: {{ pubblicatore.longitudine }}</p>
+                    <p class="card-text">Telefono: {{ pubblicatore.numTelefono }}</p>
                 </div>
             </div>
         </div>

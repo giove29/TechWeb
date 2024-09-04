@@ -36,7 +36,8 @@ def PubblicatoreUpdateView(request):
         "init_nome": request.user.first_name,
         "init_descrizione": pubblicatore.descrizione,
         "init_latitudine": pubblicatore.latitudine,
-        "init_longitudine": pubblicatore.longitudine
+        "init_longitudine": pubblicatore.longitudine,
+        "init_numTelefono": pubblicatore.numTelefono
     }
     print(initial_data)
     
@@ -60,6 +61,7 @@ def PubblicatoreUpdateView(request):
     else:
         #Utente non ha campi da modificare se non il nome di user
         initial_data["init_cognome"] = request.user.last_name
+        initial_data["img"] = request.user.img
         user_form = UpdateUserForm(instance=request.user)
 
     return render(request, "utenti/edit_profile_pubblicatore.html",

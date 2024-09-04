@@ -4,28 +4,21 @@
 
 {% block content %}
 
-{% if 'ok' in request.GET %}
-<div id="info" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Prenotazione eliminata con successo!</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-info" data-dismiss="modal">Chiudi</button>
-            </div>
-        </div>
+
+<!-- Alert per la corretta eliminazione della prenotazione -->
+{% if "ok" in request.GET %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Prenotazione eliminata con successo!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-</div> 
-<script>
-    $(document).ready(function(){
-        $("#info").modal('show');
-    });
-</script>
 {% endif %}
+
+<!-- Include Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<!-- Aggiungi i link ai file CSS e JavaScript di Selectize.js -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap5.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
 
 <style>
     .disabled-btn {
@@ -34,7 +27,9 @@
         color: gray;
         cursor: not-allowed;
     }
-
+    .modal-content {
+        border-radius: 8px;
+    }
     .card-header {
         background-color: #e0e0d1; /* Beige */
         color: #333; /* Colore scuro per il testo */
@@ -71,84 +66,65 @@
                                             <div class="col"><strong>Data evento:</strong> {{ prenotazione.evento.data|date:"d F Y" }}</div>
                                             <div class="col"><strong>Utente:</strong> {{ prenotazione.utente.user.username }}</div>
                                             <div class="col text-center">
-                                                <button type="button" class="btn btn-outline-danger {% if not futura %}disabled-btn{% endif %}"
+                                                <!-- Bottone per aprire il modal di conferma -->
+                                                <button type="button" class="btn btn-outline-danger {% if not futura %} DIOCANE disabled-btn{% endif %}"
                                                     {% if futura %}
-                                                        data-toggle="modal" data-target="#modal-elimina-{{ prenotazione.id }}"
+                                                        data-bs-toggle="modal" data-bs-target="#modal-elimina-{{ prenotazione.id }}"
                                                     {% endif %}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash">
-                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
+                                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
                                                     </svg>
                                                     Elimina
                                                 </button>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Modale di Conferma Eliminazione -->
-                                        <div class="modal fade" id="modal-elimina-{{ prenotazione.id }}" tabindex="-1" role="dialog" aria-labelledby="modal-elimina-{{ prenotazione.id }}-label" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="modal-elimina-{{ prenotazione.id }}-label">Conferma eliminazione</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        Sei sicuro di voler eliminare la prenotazione per il {{ prenotazione.evento.data|date:"d F Y" }}?
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                                                        <a href="{% url 'core:elimina_prenotazione' prenotazione.id %}" class="btn btn-danger" style="font-weight: bold">Elimina</a>
+                                                <!-- Modale di Conferma Eliminazione -->
+                                                <div class="modal fade" id="modal-elimina-{{ prenotazione.id }}" tabindex="-1" role="dialog" aria-labelledby="modal-elimina-{{ prenotazione.id }}-label" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="modal-elimina-{{ prenotazione.id }}-label">Conferma eliminazione</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Sei sicuro di voler eliminare la prenotazione per il {{ prenotazione.evento.data|date:"d F Y" }}?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                                                                <form method="POST" action="{% url 'core:elimina_prenotazione' prenotazione.id %}">
+                                                                    {% csrf_token %}
+                                                                    <button type="submit" class="btn btn-danger">Elimina</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        
+
                                         <hr>
                                     {% endfor %}
                                             
                                     <!-- Paginazione -->
-                                    <div class="pagination-container">
+                                    <div class="pagination-container mt-4">
                                         <nav aria-label="Page navigation">
                                             <ul class="pagination justify-content-center">
                                                 {% if page_obj.has_previous %}
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Precedente</a>
-                                                    </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Precedente</a>
+                                                </li>
                                                 {% endif %}
-                                                
-                                                {% if page_obj.paginator.num_pages > 2 %}
-                                                    <li class="page-item {% if page_obj.number == 1 %}active{% endif %}">
-                                                        <a class="page-link" href="?page=1">1</a>
-                                                    </li>
-                                                    
-                                                    {% if page_obj.number > 2 %}
-                                                        <li class="page-item disabled">
-                                                            <span class="page-link">...</span>
-                                                        </li>
-                                                    {% endif %}
-                                                
-                                                    {% if page_obj.number > 1 and page_obj.number < page_obj.paginator.num_pages %}
-                                                        <li class="page-item active">
-                                                            <a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
-                                                        </li>
-                                                    {% endif %}
-                                                
-                                                    {% if page_obj.number < page_obj.paginator.num_pages|add:"-1" %}
-                                                        <li class="page-item disabled">
-                                                            <span class="page-link">...</span>
-                                                        </li>
-                                                    {% endif %}
-                                                
-                                                    <li class="page-item {% if page_obj.number == page_obj.paginator.num_pages %}active{% endif %}">
-                                                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
-                                                    </li>
-                                                {% endif %}
-                                                    
+                                                {% for num in page_obj.paginator.page_range %}
+                                                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                                </li>
+                                                {% endfor %}
                                                 {% if page_obj.has_next %}
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Successiva</a>
-                                                    </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Successiva</a>
+                                                </li>
                                                 {% endif %}
                                             </ul>
                                         </nav>
