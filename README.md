@@ -53,11 +53,7 @@ Lanciare i seguenti comandi rimanendo nella cartella `Modena_Eventi/`:
 python manage.py makemigrations
 python manage.py migrate
 ```
-Spostati all'interno dell'app "modena_eventi":
-```
-cd modena_eventi/
-```
-Trovandoti nel percorso `Modena_Eventi/modena_eventi`, esegui:
+Trovandoti nel percorso `Modena_Eventi/`, esegui:
 ```
 python setup.py
 ```
