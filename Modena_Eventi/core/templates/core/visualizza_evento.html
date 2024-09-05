@@ -28,12 +28,17 @@
     .text-center p {
         font-size: 16px;
     }
+    /* Tags */
     .badge {
-        font-size: 14px;
-        padding: 0.5em 1em;
-        border-radius: 20px;
-        background-color: #007bff;
-        color: white;
+        background-color: #6c757d; /* Colore grigio */
+        color: #fff;
+        border: 1px solid #6c757d;
+        padding: 0.25em 0.5em;
+        border-radius: 1em;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        font-size: 0.875rem;
+        margin-right: 5px;
+        margin-bottom: 5px;
     }
     .card {
         border: none;
@@ -57,6 +62,23 @@
         border-radius: 8px;
         padding: 15px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .image-container {
+        width: 170px;
+        height: 170px;
+        border: solid;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;  /* Aggiungi questa riga per centrare il contenitore dell'immagine */
+    }
+    
+    .image-container img {
+        width: 150%;
+        height: 150%;
+        object-fit: cover;
     }
 </style>
 {% endblock %}
@@ -125,63 +147,109 @@
     <!--CONTAINER PER I SUGGERITI-->
     <div class="container py-5">
         {% if suggested_eventi %}
-            <h4 class="text-center mb-5">Eventi suggeriti</h4>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                {% for evento, voto in suggested_eventi %}
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <!-- Intestazione con nome del pubblicatore e nome dell'evento -->
-                            <div class="row mb-3">
-                                <div class="col-md-9">
-                                    <a href="{% url 'core:visualizza_pubblicatore' evento.pubblicatore_id %}" class="card-title">{{ evento.pubblicatore.user.username }}</a>
-                                    <h5>{{ evento.nome }}</h5>
+            {% if object.data|date:"Y-m-d" < today_date %}
+                <h3 class="text-center mb-5">Dai un'occhiata ai pubblicatori di questi eventi passati correlati...</h3>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% for evento, voto in suggested_eventi %}
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <!-- Intestazione con nome e immagine del pubblicatore-->
+                                <div class="row mb-3">
+                                    <div class="col-md-9">
+                                        <h5><a href="{% url 'core:visualizza_pubblicatore' evento.pubblicatore_id %}" class="card-title">{{ evento.pubblicatore.user.username }}</a></h5>
+                                        
+                                    </div>
+                                    <!-- Immagine pubblicatore -->
+                                    <dd class="image-container"><img src="{{ evento.pubblicatore.user.img.url }}" alt="Profile Image"></dd>
                                 </div>
+
+                                <!-- Nome e descrizione dell'evento -->
                                 <div class="col-md-3 text-right">
+                                    <h6>{{ evento.nome }}</h6>
                                     <div class="ratings">
                                         <b class="font-rating">{{ voto|floatformat:1 }}</b> <i class="fa fa-star rating-color"></i>
                                     </div>
                                 </div>
-                            </div>
+                                <p class="description">{{ evento.descrizione }}</p>
 
-                            <!-- Descrizione dell'evento -->
-                            <p class="description">{{ evento.descrizione }}</p>
-
-                            <!-- Tags dell'evento -->
-                            <div class="mb-3">
-                                <h6>Tags:</h6>
-                                {% if evento.tags.all %}
-                                    <div class="d-flex flex-wrap">
-                                        {% for tag in evento.tags.all %}
-                                            <span class="badge custom-badge">{{ tag.nome }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% else %}
-                                    <p>Nessun tag disponibile.</p>
-                                {% endif %}
-                            </div>  
-
-                            <!-- Prezzo e pulsante di prenotazione -->
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="text-primary">{{ evento.costo }}€</h3>
-                                {% if evento.data < today_date %}
-                                    <p class="text-danger">Evento passato</p>
-                                    <button class="btn btn-primary" disabled>Prenota</button>
-                                {% else %}
-                                    {% if evento.id in prenotati_ids %}
-                                        <p class="text-danger">Evento già prenotato</p>
+                                <!-- Tags dell'evento -->
+                                <div class="mb-3">
+                                    <h6>Tags:</h6>
+                                    {% if evento.tags.all %}
+                                        <div class="d-flex flex-wrap">
+                                            {% for tag in evento.tags.all %}
+                                                <span class="badge custom-badge">{{ tag.nome }}</span>
+                                            {% endfor %}
+                                        </div>
                                     {% else %}
-                                        <a href="{% url 'core:visualizza_evento' evento.id %}" class="btn btn-primary">PRENOTA</a>
+                                        <p>Nessun tag disponibile.</p>
                                     {% endif %}
-                                {% endif %}
+                                </div>  
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            </div>
+            {% else %}
+                <h3 class="text-center mb-5">Eventi simili suggeriti</h3>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% for evento in suggested_eventi %}
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <!-- Intestazione con nome del pubblicatore e nome dell'evento -->
+                                <div class="row mb-3">
+                                    <div class="col-md-9">
+                                        <a href="{% url 'core:visualizza_pubblicatore' evento.pubblicatore_id %}" class="card-title">{{ evento.pubblicatore.user.username }}</a>
+                                        <h5>{{ evento.nome }}</h5>
+                                    </div>
+                                    <div class="col-md-3 text-right">
+                                        <div class="ratings">
+                                            <p class="description"> {{ evento.data }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <!-- Descrizione dell'evento -->
+                                <p class="description">{{ evento.descrizione }}</p>
+    
+                                <!-- Tags dell'evento -->
+                                <div class="mb-3">
+                                    <h6>Tags:</h6>
+                                    {% if evento.tags.all %}
+                                        <div class="d-flex flex-wrap">
+                                            {% for tag in evento.tags.all %}
+                                                <span class="badge custom-badge">{{ tag.nome }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <p>Nessun tag disponibile.</p>
+                                    {% endif %}
+                                </div>  
+    
+                                <!-- Prezzo e pulsante di prenotazione -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h3 class="text-primary">{{ evento.costo }}€</h3>
+                                    {% if evento.data < today_date %}
+                                        <p class="text-danger">Evento passato</p>
+                                        <button class="btn btn-primary" disabled>Prenota</button>
+                                    {% else %}
+                                        {% if evento.id in prenotati_ids %}
+                                            <p class="text-danger">Evento già prenotato</p>
+                                        {% else %}
+                                            <a href="{% url 'core:visualizza_evento' evento.id %}" class="btn btn-primary">PRENOTA</a>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
         {% else %}
-            <h3 class="text-center">Nessun suggerimento trovato</h3>
+            <h4 class="text-center">Nessun suggerimento trovato</h4>
         {% endif %}
     </div>
     
@@ -217,7 +285,7 @@
                     </ul>
                 </nav>
         {% else %}
-            <h3 class="text-center">Nessuna recensione trovata</h3>
+            <h4 class="text-center">Nessuna recensione ancora</h4>
         {% endif %}
     </div>
 </div>

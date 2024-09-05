@@ -1,14 +1,23 @@
 import heapq
 from django.db.models import Avg
 from django.utils.timezone import now
+from django.db.models import Q
 from datetime import date
 from collections import Counter
 from .models import *
 from utenti.models import Pubblicatore
 from collections import defaultdict
 
-def get_recommendations_for_evento(evento, num_rec=3, user_id=None):
-    
+def get_recommendations_for_evento_futuro(evento, num_rec=3):
+    tags = evento.tags.all()
+    # Crea una query per trovare gli eventi con almeno uno dei tag specifici
+    # e con data maggiore o uguale a oggi
+    query = Q()
+    for tag in tags:
+        query |= Q(tags=tag, data__gte=now().date())
+    return Evento.objects.filter(query).order_by('data')[:num_rec]
+
+def get_recommendations_for_evento_passato(evento, num_rec=3, user_id=None):
     # Ottieni tutte le recensioni per l'evento specificato
     evento_recensioni = Recensione.objects.filter(evento_id=evento.id)
     # Crea un dizionario con utente_id come chiave e voto come valore
@@ -24,14 +33,14 @@ def get_recommendations_for_evento(evento, num_rec=3, user_id=None):
         recensioni_utente = Recensione.objects.filter(utente=utente).exclude(evento_id=evento.id)
         for recensione in recensioni_utente:
             recommended_eventi[recensione.evento.id].append(recensione.voto*voto)   
-    
+        
     medie_dict = {evento_id: sum(voti) / len(voti) for evento_id, voti in recommended_eventi.items()}
     topEventi = heapq.nlargest(num_rec, medie_dict.items(), key=lambda x: x[1])
     return [Evento.objects.get(id=id) for id, _ in topEventi]
 
 
 def get_recommended_pubblicatori_by_reviews():
-    
+        
     # Annotiamo i pubblicatori con la media dei voti delle recensioni degli eventi che pubblicano
     pubblicatori = Pubblicatore.objects.annotate(
         avg_voto=Avg('eventi__recensioni__voto')  # Media dei voti delle recensioni per ogni evento

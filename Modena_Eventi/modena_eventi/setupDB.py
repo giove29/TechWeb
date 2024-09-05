@@ -1,5 +1,6 @@
 from core.models import *
 from utenti.models import *
+import random
 import json, os
 from django.db import transaction, IntegrityError
 import random
@@ -10,14 +11,17 @@ BO = 8
 
 def erase_db():
     print("Cancello il DB")
-    Evento.objects.all().delete()
-    Tag.objects.all().delete()
-    Pubblicatore.objects.all().delete()
-    Prenotazione.objects.all().delete()
-    Recensione.objects.all().delete()
-    User.objects.all().delete()
-    Utente.objects.all().delete()
-    print("Database cancellato")
+    try:
+        Evento.objects.all().delete()
+        Tag.objects.all().delete()
+        Pubblicatore.objects.all().delete()
+        Prenotazione.objects.all().delete()
+        Recensione.objects.all().delete()
+        User.objects.all().delete()
+        Utente.objects.all().delete()
+        print("Database cancellato")
+    except Exception as e:
+        print("Database già vuoto")
 
 def init_db():
     #------CREAZIONE SUPER USER------
@@ -37,7 +41,8 @@ def init_db():
                 defaults={
                     'first_name': item['nome'],
                     'is_pubblicatore': True,
-                    'is_utente': False
+                    'is_utente': False,
+                    'img': 'static/img/default_img/user2.png'
                 }
             )
             
@@ -105,7 +110,8 @@ def init_db():
                     'first_name': item['nome'],
                     'last_name': item['cognome'],
                     'is_pubblicatore': False,
-                    'is_utente': True
+                    'is_utente': True,
+                    'img': 'static/img/default_img/user1.png'
                 }
             )
 
@@ -144,7 +150,10 @@ def init_db():
     prenotazioni = Prenotazione.objects.all()
     oggi = timezone.localdate()
 
-    for prenotazione in prenotazioni:
+    #prendo solo un 50% così da sperimentare
+    prenotazioni_totali = Prenotazione.objects.count()
+    prenotazioni_campione = Prenotazione.objects.all()[:prenotazioni_totali // 2]
+    for prenotazione in prenotazioni_campione:
         recensione_random = random.choice(data)
         recensione = Recensione(
             data_recensione=oggi,

@@ -8,6 +8,23 @@
 
 <!-- CSS Integrato -->
 <style>
+
+    .image-container {
+        width: 70px;
+        height: 70px;
+        border: solid;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .image-container img {
+        width: 150%;
+        height: 150%;
+        object-fit: cover;
+    }
     /* Header */
     #font-eventi-trovati {
         font-family: Georgia, serif;
@@ -202,6 +219,7 @@
             {% for pubblicatore in migliori_pubblicatori %}
                 <a href="{% url 'core:visualizza_pubblicatore' pubblicatore.pk %}" class="list-group-item list-group-item-action">
                     <h5 class="mb-1">{{ pubblicatore.user.first_name }} {{ pubblicatore.user.last_name }}</h5>
+                    <dd class="image-container"><img src="{{ pubblicatore.user.img.url }}" alt="Profile Image"></dd>
                     <p class="mb-1">{{ pubblicatore.descrizione }}</p>
                     <small>
                         Media Voto: {{ pubblicatore.avg_voto|floatformat:1 }} 

@@ -292,15 +292,19 @@ class DetailEventoView(LoginRequiredMixin, ListView):
         context["posti_esauriti"] = posti_occupati >= max_posti
 
         #---Recommendations System
-        suggested_eventi = get_recommendations_for_evento(self.evento)
-        suggested_eventi_dict = {}
-        for evento in suggested_eventi:
-            voto_medio = round(Recensione.objects.filter(evento_id=evento.id).aggregate(Avg('voto'))['voto__avg'],1)
-            if voto_medio is None:
-                voto_medio = "-"
-            suggested_eventi_dict[evento] = voto_medio
+        if self.evento.data >= now().date():
+            suggested_eventi = get_recommendations_for_evento_futuro(self.evento)
+            context['suggested_eventi'] = list(suggested_eventi)
+        else:
+            suggested_eventi = get_recommendations_for_evento_passato(self.evento)
+            suggested_eventi_dict = {}
+            for evento in suggested_eventi:
+                voto_medio = round(Recensione.objects.filter(evento_id=evento.id).aggregate(Avg('voto'))['voto__avg'],1)
+                if voto_medio is None:
+                    voto_medio = "-"
+                suggested_eventi_dict[evento] = voto_medio
         
-        context['suggested_eventi'] =  list(suggested_eventi_dict.items())
+            context['suggested_eventi'] =  list(suggested_eventi_dict.items())
 
         voto_medio = self.get_queryset().aggregate(media=Avg("voto"))["media"]
         if voto_medio is None:
